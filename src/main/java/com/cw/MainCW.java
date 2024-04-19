@@ -1,15 +1,10 @@
 package com.cw;
 
-import com.cw.dao.MaquinaDAO;
-import com.cw.dao.OciosidadeMouseDAO;
-import com.cw.dao.SessaoDAO;
-import com.cw.dao.UsuarioDAO;
-import com.cw.models.Maquina;
-import com.cw.models.Sessao;
-import com.cw.models.Usuario;
+import com.cw.dao.*;
+import com.cw.models.*;
 import com.cw.services.AtualizarRegistro;
-import com.cw.services.LoginUsuario;
 import com.cw.services.OciosidadeMouse;
+import com.github.britooo.looca.api.core.Looca;
 
 import java.util.Scanner;
 import java.util.Timer;
@@ -17,11 +12,30 @@ import java.util.Timer;
 public class MainCW {
 
     public static void main(String[] args) {
-        Sessao sessao = new Sessao();
+        // Buscar hostname da máquina atual
+        String hostname = new Looca().getRede().getParametros().getHostName();
 
         UsuarioDAO userDao = new UsuarioDAO();
         MaquinaDAO maquinaDAO = new MaquinaDAO();
         SessaoDAO sessaoDAO = new SessaoDAO();
+
+
+        // Configurar parâmetros para alertas e tempos de intervalo
+        // Instância para definir parâmetros:
+        ParametroAlerta parametroAlertaAtual = new ParametroAlerta();
+
+        // Porcentagem:
+        parametroAlertaAtual.setMaxCpu(70.0);
+        parametroAlertaAtual.setMaxRam(95.0);
+        parametroAlertaAtual.setMaxVolume(85.0);
+
+        // Tempo para ociosidade do mouse e sua sensibilidade:
+        parametroAlertaAtual.setSensisbilidadeMouse(25);
+        parametroAlertaAtual.setRegistroMouseSeg(15);
+
+        // Intervalo de captura dos registros:
+        parametroAlertaAtual.setRegistroMaquinaSeg(2);
+        // Fim configuração
 
         System.out.println("""                                                                      
                    ______           __           _       __      __       __ \s
@@ -32,37 +46,39 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        Boolean continuar = true;
-
+        // Loop para interação com usuário (login)
+        Boolean continuar;
         do {
             Scanner leitor = new Scanner(System.in);
 
-            System.out.println("Usuário: ");
+            System.out.print("Usuário: ");
             String username = leitor.next();
 
-            System.out.println("Senha: ");
+            System.out.print("Senha: ");
             String senha = leitor.next();
 
+            // Autentica o login
             if (userDao.autenticarLogin(username, senha)) {
-                Usuario usuario = userDao.buscarUsuarioPorUsername(username);
-                Maquina maquina = maquinaDAO.buscarMaquinaPorHostname("VINILOPE");
 
+                // Busca objetos usuário e máquina para ser registrada a sessão criada
+                Usuario usuario = userDao.buscarUsuarioPorUsername(username);
+                Maquina maquina = maquinaDAO.buscarMaquinaPorHostname(hostname);
+
+                // Registra a sessão criada ao logar
                 Sessao sessaoAtual = new Sessao(usuario, maquina);
                 sessaoDAO.registrarSessao(sessaoAtual.getMaquina(), sessaoAtual.getUsuario());
 
-                int INTERVALO_MS = 1000;
+                // Inicializa timer para coleta de dados
                 Timer time = new Timer();
-                time.schedule(new AtualizarRegistro(), 0, INTERVALO_MS);
+                time.schedule(new AtualizarRegistro(), 0, parametroAlertaAtual.getRegistroMaquinaSeg());
 
-                Integer TEMPO = 5;
-                Integer SENSIBILIDADE = 25;
-                System.out.println(usuario);
+                // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
-                ociosidadeMouse.setTempoRestanteSegundos(TEMPO);
-                ociosidadeMouse.setSensibilidadeThreshold(SENSIBILIDADE);
-                ociosidadeMouse.iniciar();
+                ociosidadeMouse.setTempoRestanteSegundos(parametroAlertaAtual.getRegistroMouseSeg());
+                ociosidadeMouse.setSensibilidadeThreshold(parametroAlertaAtual.getSensisbilidadeMouse());
 
-                System.out.println("logou");
+                System.out.println("Login com sucesso. Iniciando captura de dados...");
+                ociosidadeMouse.iniciar();
                 continuar = false;
             } else {
                 System.out.println("Login inválido. Tentar novamente? Y/N");

@@ -10,18 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/cwatching_jar/cwatching.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/cwatching_jar/cwatching.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/TestesMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/TestesMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/OciosidadeMouseDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/OciosidadeMouseDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/UsuarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/UsuarioDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroOciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroOciosidadeMouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Usuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/LoginUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/LoginUsuario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +64,7 @@
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.MainCW">
+  <component name="RunManager">
     <configuration name="AtualizarRegistro" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cw.services.AtualizarRegistro" />
       <module name="cwatching" />

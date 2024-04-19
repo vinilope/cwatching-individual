@@ -30,14 +30,14 @@ public class UsuarioDAO {
         return usuario.size() == 1;
     }
 
-    public Integer buscarIdEmpresaPorUsername(String username) {
-        Integer id = 0;
+    public Empresa buscarEmpresaPorUsername(String username) {
+//        Integer id = 0;
 
-        String sql = "SELECT id_empresa FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON fk_funcionario = id_funcionario WHERE username = '%s'".formatted(username);
-        Empresa empresa = con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
+        String sql = "SELECT * FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON fk_funcionario = id_funcionario WHERE username = '%s'".formatted(username);
+//        Empresa empresa = con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
 
-        if (empresa != null) id = empresa.getIdEmpresa();
+//        if (empresa != null) id = empresa.getIdEmpresa();
 
-        return id;
+        return con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
     }
 }

@@ -48,6 +48,5 @@ public class TestesMain {
 //        System.out.println("Está conectado: " + (new VerificarRede().redeConectada() ? "Sim" : "Não"));
 
 //        new RegistrarMaquina().registrarMaquinaSeNaoExiste();
-
     }
 }
