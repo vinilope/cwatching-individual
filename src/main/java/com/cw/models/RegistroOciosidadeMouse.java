@@ -6,11 +6,11 @@ public class RegistroOciosidadeMouse {
     private int idTempoOciosidade;
     private String dtHoraRegistro;
     private int tempoRegistroSeg;
-    private int fkFuncionario;
+    private int fkUsuario;
 
-    public RegistroOciosidadeMouse(int tempoRegistroSeg, int fkFuncionario) {
+    public RegistroOciosidadeMouse(int tempoRegistroSeg, int fkUsuario) {
         this.tempoRegistroSeg = tempoRegistroSeg;
-        this.fkFuncionario = fkFuncionario;
+        this.fkUsuario = fkUsuario;
     }
 
     public RegistroOciosidadeMouse() {
@@ -40,12 +40,12 @@ public class RegistroOciosidadeMouse {
         this.tempoRegistroSeg = tempoRegistroSeg;
     }
 
-    public int getFkFuncionario() {
-        return fkFuncionario;
+    public int getFkUsuario() {
+        return fkUsuario;
     }
 
-    public void setFkFuncionario(int fkFuncionario) {
-        this.fkFuncionario = fkFuncionario;
+    public void setFkUsuario(int fkUsuario) {
+        this.fkUsuario = fkUsuario;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RegistroOciosidadeMouse {
                 "idTempoOciosidade=" + idTempoOciosidade +
                 ", dtHoraRegistro='" + dtHoraRegistro + '\'' +
                 ", tempoRegistroSeg=" + tempoRegistroSeg +
-                ", fkFuncionario=" + fkFuncionario +
+                ", fkUsuario=" + fkUsuario +
                 '}';
     }
 }

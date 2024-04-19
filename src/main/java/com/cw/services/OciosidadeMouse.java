@@ -2,6 +2,7 @@ package com.cw.services;
 
 import com.cw.dao.OciosidadeMouseDAO;
 import com.cw.models.RegistroOciosidadeMouse;
+import com.cw.models.Usuario;
 
 import java.awt.*;
 
@@ -17,13 +18,16 @@ public class OciosidadeMouse {
     private Boolean timerDecrescenteIsRunning;
     private Boolean mouseIsMoving;
 
-    public OciosidadeMouse() {
+    private Usuario usuario;
+
+    public OciosidadeMouse(Usuario usuario) {
         this.tempoDecrescenteSegundos = 45;
         this.timerDecrescenteIsRunning = false;
         this.mouseIsMoving = false;
         this.tempoDecrescente = tempoDecrescenteSegundos * 1000;
         this.tempoCrescente = 0;
         this.sensibilidadeThreshold = 0;
+        this.usuario = usuario;
     }
 
     public void iniciar() {
@@ -109,10 +113,15 @@ public class OciosidadeMouse {
 
                 run();
             } catch (Exception e) {
-                new OciosidadeMouseDAO().inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescente/1000, 1));
+                System.out.println(usuario);
+                new OciosidadeMouseDAO().inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescente/1000, usuario.getIdUsuario()));
                 System.out.println("Inserido %d segundos".formatted(tempoCrescente/1000));
                 tempoCrescente = 0;
             }
         }
     };
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

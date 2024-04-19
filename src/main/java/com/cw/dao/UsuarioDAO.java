@@ -1,6 +1,7 @@
 package com.cw.dao;
 
 import com.cw.conexao.Conexao;
+import com.cw.models.Empresa;
 import com.cw.models.Usuario;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,12 +9,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 public class UsuarioDAO {
-    private Conexao conexao;
-    private JdbcTemplate con;
+    private final Conexao conexao = new Conexao();
+    private final JdbcTemplate con = conexao.getConexaoDoBanco();
 
     public UsuarioDAO() {
-        this.conexao = new Conexao();
-        this.con = conexao.getConexaoDoBanco();
+
     }
 
     public Usuario buscarUsuarioPorUsername(String username) {
@@ -28,5 +28,16 @@ public class UsuarioDAO {
         List<Usuario> usuario = con.query("SELECT * FROM usuario WHERE username = '%s' AND senha = '%s'".formatted(username, senha), new BeanPropertyRowMapper<>(Usuario.class));
 
         return usuario.size() == 1;
+    }
+
+    public Integer buscarIdEmpresaPorUsername(String username) {
+        Integer id = 0;
+
+        String sql = "SELECT id_empresa FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON fk_funcionario = id_funcionario WHERE username = '%s'".formatted(username);
+        Empresa empresa = con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
+
+        if (empresa != null) id = empresa.getIdEmpresa();
+
+        return id;
     }
 }

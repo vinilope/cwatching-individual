@@ -1,19 +1,25 @@
 package com.cw.models;
 
 public class Usuario {
+    private Integer idUsuario;
     private String username;
     private String senha;
     private String dtCriado;
-    private Boolean ativo;
 
-    public Usuario(String username, String senha, String dtCriado, Boolean ativo) {
+    public Usuario(String username, String senha) {
         this.username = username;
         this.senha = senha;
-        this.dtCriado = dtCriado;
-        this.ativo = ativo;
     }
 
     public Usuario() {
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getUsername() {
@@ -40,21 +46,13 @@ public class Usuario {
         this.dtCriado = dtCriado;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
-
     @Override
     public String toString() {
         return "Usuario{" +
-                "username='" + username + '\'' +
+                "idUsuario=" + idUsuario +
+                ", username='" + username + '\'' +
                 ", senha='" + senha + '\'' +
                 ", dtCriado='" + dtCriado + '\'' +
-                ", ativo=" + ativo +
                 '}';
     }
 }

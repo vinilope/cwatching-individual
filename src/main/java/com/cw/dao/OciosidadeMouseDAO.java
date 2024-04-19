@@ -17,13 +17,13 @@ public class OciosidadeMouseDAO {
     }
 
     public void inserirOciosidadeMouse(RegistroOciosidadeMouse registro) {
-        String sql = "INSERT INTO tempo_ociosidade (tempo_registro_seg, fk_funcionario) VALUES (?, ?)";
+        String sql = "INSERT INTO tempo_ociosidade (tempo_registro_seg, fk_usuario) VALUES (?, ?)";
 
-        con.update(sql, registro.getTempoRegistroSeg(), registro.getFkFuncionario());
+        con.update(sql, registro.getTempoRegistroSeg(), registro.getFkUsuario());
     }
 
-    public List<RegistroOciosidadeMouse> buscarRegistroOciosidadeFuncionario (Integer fkFuncionario) {
-        String sql = "SELECT * FROM tempo_ociosidade WHERE fk_funcionario = " + fkFuncionario;
+    public List<RegistroOciosidadeMouse> buscarRegistroOciosidadeUsuario (Integer fkUsuario) {
+        String sql = "SELECT * FROM tempo_ociosidade WHERE fk_usuario = " + fkUsuario;
         List<RegistroOciosidadeMouse> registros = con.query(sql, new BeanPropertyRowMapper<>(RegistroOciosidadeMouse.class));
 
         return registros;
