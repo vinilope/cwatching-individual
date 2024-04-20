@@ -1,9 +1,12 @@
 package com.cw;
 
 import com.cw.dao.*;
+import com.cw.database.CriarTabelas;
+import com.cw.database.PopularTabelas;
 import com.cw.models.*;
 import com.cw.services.AtualizarRegistro;
 import com.cw.services.OciosidadeMouse;
+import com.cw.services.RegistrarMaquina;
 import com.github.britooo.looca.api.core.Looca;
 
 import java.util.Scanner;
@@ -59,18 +62,26 @@ public class MainCW {
 
             // Autentica o login
             if (userDao.autenticarLogin(username, senha)) {
+                // Usuário está logado
+
+                // Cadastra a máquina atual caso ela não esteja no banco
+                Empresa empresa = userDao.buscarEmpresaPorUsername(username);
+                RegistrarMaquina registrarMaquina = new RegistrarMaquina();
+                registrarMaquina.registrarMaquinaSeNaoExiste(empresa);
 
                 // Busca objetos usuário e máquina para ser registrada a sessão criada
                 Usuario usuario = userDao.buscarUsuarioPorUsername(username);
-                Maquina maquina = maquinaDAO.buscarMaquinaPorHostname(hostname);
+                Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(hostname, empresa);
 
                 // Registra a sessão criada ao logar
-                Sessao sessaoAtual = new Sessao(usuario, maquina);
-                sessaoDAO.registrarSessao(sessaoAtual.getMaquina(), sessaoAtual.getUsuario());
+                sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
+                Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
+                System.out.println(sessaoAtual);
 
                 // Inicializa timer para coleta de dados
                 Timer time = new Timer();
-                time.schedule(new AtualizarRegistro(), 0, parametroAlertaAtual.getRegistroMaquinaSeg());
+                time.schedule(new AtualizarRegistro(sessaoAtual), 0, parametroAlertaAtual.getRegistroMaquinaSeg()*1000);
+
 
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
@@ -79,6 +90,7 @@ public class MainCW {
 
                 System.out.println("Login com sucesso. Iniciando captura de dados...");
                 ociosidadeMouse.iniciar();
+
                 continuar = false;
             } else {
                 System.out.println("Login inválido. Tentar novamente? Y/N");

@@ -1,13 +1,14 @@
 package com.cw.dao;
 
 import com.cw.conexao.Conexao;
+import com.cw.models.Empresa;
 import com.cw.models.Maquina;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class MaquinaDAO {
-    private final Conexao conexao = new Conexao();
-    private final JdbcTemplate con = conexao.getConexaoDoBanco();
+    private Conexao conexao = new Conexao();
+    private JdbcTemplate con = conexao.getConexaoDoBanco();
 
     public MaquinaDAO() {
     }
@@ -17,13 +18,13 @@ public class MaquinaDAO {
         con.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getFkEmpresa());
     }
 
-    public Boolean verificarMaquinaExistePorHostname(String hostname) {
-        String sql = "SELECT hostname FROM maquina WHERE hostname = '%s'".formatted(hostname);
+    public Boolean verificarMaquinaExistePorHostnameEEmpresa(String hostname, Empresa e) {
+        String sql = "SELECT hostname FROM maquina WHERE hostname = '%s' AND fk_empresa = %d".formatted(hostname, e.getIdEmpresa());
         return !con.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
     }
 
-    public Maquina buscarMaquinaPorHostname(String hostname) {
-        String sql = "SELECT * FROM maquina WHERE hostname = '%s'".formatted(hostname);
+    public Maquina buscarMaquinaPorHostnameEEmpresa(String hostname, Empresa e) {
+        String sql = "SELECT * FROM maquina WHERE hostname = '%s' AND fk_empresa = %d".formatted(hostname, e.getIdEmpresa());
         return con.queryForObject(sql, new BeanPropertyRowMapper<>(Maquina.class));
     }
 }

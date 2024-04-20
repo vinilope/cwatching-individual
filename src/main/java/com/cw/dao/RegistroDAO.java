@@ -19,7 +19,7 @@ public class RegistroDAO {
     }
 
     public void inserirRegistro(Registro r) {
-        String sql = "INSERT INTO registro (uso_cpu, uso_ram, disponivel_ram) VALUES (?, ?, ?)";
-        con.update(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam());
+        String sql = "INSERT INTO registro (uso_cpu, uso_ram, disponivel_ram, fk_sessao) VALUES (?, ?, ?, ?)";
+        con.update(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam(), r.getFkSessao());
     }
 }

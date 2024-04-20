@@ -6,12 +6,13 @@ public class Registro {
     private Double usoCpu;
     private Long usoRam;
     private Long disponivelRam;
-    private Integer fkMaquina;
+    private Integer fkSessao;
 
-    public Registro(Double usoCpu, Long usoRam, Long disponivelRam) {
+    public Registro(Double usoCpu, Long usoRam, Long disponivelRam, Integer fkSessao) {
         this.usoCpu = usoCpu;
         this.usoRam = usoRam;
         this.disponivelRam = disponivelRam;
+        this.fkSessao = fkSessao;
     }
 
     public Integer getIdRegistro() {
@@ -54,12 +55,12 @@ public class Registro {
         this.disponivelRam = disponivelRam;
     }
 
-    public Integer getFkMaquina() {
-        return fkMaquina;
+    public Integer getFkSessao() {
+        return fkSessao;
     }
 
-    public void setFkMaquina(Integer fkMaquina) {
-        this.fkMaquina = fkMaquina;
+    public void setFkSessao(Integer fkSessao) {
+        this.fkSessao = fkSessao;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class Registro {
                 ", usoCpu=" + usoCpu +
                 ", usoRam=" + usoRam +
                 ", disponivelRam=" + disponivelRam +
-                ", fkMaquina=" + fkMaquina +
+                ", fkSessao=" + fkSessao +
                 '}';
     }
 }

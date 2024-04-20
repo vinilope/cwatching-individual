@@ -1,32 +1,41 @@
 package com.cw.models;
 
 public class Sessao {
-    private Usuario usuario;
-    private Maquina maquina;
+    private Integer idSessao;
+    private Integer fkMaquina;
+    private Integer fkUsuario;
     private String dtHoraSessao;
 
-    public Sessao(Usuario usuario, Maquina maquina) {
-        this.usuario = usuario;
-        this.maquina = maquina;
+    public Sessao(Integer fkMaquina, Integer fkUsuario) {
+        this.fkMaquina = fkMaquina;
+        this.fkUsuario = fkUsuario;
     }
 
     public Sessao() {
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getIdSessao() {
+        return idSessao;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdSessao(Integer idSessao) {
+        this.idSessao = idSessao;
     }
 
-    public Maquina getMaquina() {
-        return maquina;
+    public Integer getFkMaquina() {
+        return fkMaquina;
     }
 
-    public void setMaquina(Maquina maquina) {
-        this.maquina = maquina;
+    public void setFkMaquina(Integer fkMaquina) {
+        this.fkMaquina = fkMaquina;
+    }
+
+    public Integer getFkUsuario() {
+        return fkUsuario;
+    }
+
+    public void setFkUsuario(Integer fkUsuario) {
+        this.fkUsuario = fkUsuario;
     }
 
     public String getDtHoraSessao() {
@@ -40,8 +49,9 @@ public class Sessao {
     @Override
     public String toString() {
         return "Sessao{" +
-                "usuario=" + usuario +
-                ", maquina=" + maquina +
+                "idSessao=" + idSessao +
+                ", fkMaquina=" + fkMaquina +
+                ", fkUsuario=" + fkUsuario +
                 ", dtHoraSessao='" + dtHoraSessao + '\'' +
                 '}';
     }

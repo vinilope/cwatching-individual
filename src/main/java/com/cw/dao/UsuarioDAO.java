@@ -33,7 +33,7 @@ public class UsuarioDAO {
     public Empresa buscarEmpresaPorUsername(String username) {
 //        Integer id = 0;
 
-        String sql = "SELECT * FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON fk_funcionario = id_funcionario WHERE username = '%s'".formatted(username);
+        String sql = "SELECT * FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON id_usuario = id_funcionario WHERE username = '%s'".formatted(username);
 //        Empresa empresa = con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
 
 //        if (empresa != null) id = empresa.getIdEmpresa();
