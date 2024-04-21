@@ -4,6 +4,7 @@ import com.cw.dao.*;
 import com.cw.database.CriarTabelas;
 import com.cw.database.PopularTabelas;
 import com.cw.models.*;
+import com.cw.services.AtualizarRegistroVolume;
 import com.cw.services.AtualizarRegistro;
 import com.cw.services.OciosidadeMouse;
 import com.cw.services.RegistrarMaquina;
@@ -21,24 +22,7 @@ public class MainCW {
         UsuarioDAO userDao = new UsuarioDAO();
         MaquinaDAO maquinaDAO = new MaquinaDAO();
         SessaoDAO sessaoDAO = new SessaoDAO();
-
-
-        // Configurar parâmetros para alertas e tempos de intervalo
-        // Instância para definir parâmetros:
-        ParametroAlerta parametroAlertaAtual = new ParametroAlerta();
-
-        // Porcentagem:
-        parametroAlertaAtual.setMaxCpu(70.0);
-        parametroAlertaAtual.setMaxRam(95.0);
-        parametroAlertaAtual.setMaxVolume(85.0);
-
-        // Tempo para ociosidade do mouse e sua sensibilidade:
-        parametroAlertaAtual.setSensisbilidadeMouse(25);
-        parametroAlertaAtual.setRegistroMouseSeg(15);
-
-        // Intervalo de captura dos registros:
-        parametroAlertaAtual.setRegistroMaquinaSeg(2);
-        // Fim configuração
+        ParametroAlertaDAO parametroAlertaDAO = new ParametroAlertaDAO();
 
         System.out.println("""                                                                      
                    ______           __           _       __      __       __ \s
@@ -64,8 +48,12 @@ public class MainCW {
             if (userDao.autenticarLogin(username, senha)) {
                 // Usuário está logado
 
-                // Cadastra a máquina atual caso ela não esteja no banco
                 Empresa empresa = userDao.buscarEmpresaPorUsername(username);
+
+                ParametroAlerta parametroAlertaAtual = parametroAlertaDAO.buscarParametroAlertaPorEmpresa(empresa);
+                System.out.println(parametroAlertaAtual);
+
+                // Cadastra a máquina atual caso ela não esteja no banco
                 RegistrarMaquina registrarMaquina = new RegistrarMaquina();
                 registrarMaquina.registrarMaquinaSeNaoExiste(empresa);
 
@@ -76,19 +64,21 @@ public class MainCW {
                 // Registra a sessão criada ao logar
                 sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
                 Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
-                System.out.println(sessaoAtual);
 
-                // Inicializa timer para coleta de dados
-                Timer time = new Timer();
-                time.schedule(new AtualizarRegistro(sessaoAtual), 0, parametroAlertaAtual.getRegistroMaquinaSeg()*1000);
+                System.out.println("Login com sucesso. Iniciando captura de dados...");
 
+                // Inicializa timer para coleta de dados de CPU e RAM
+                Timer atualizarRegistro = new Timer();
+                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual), 0, parametroAlertaAtual.getIntervaloRegistroMs());
+
+                // Inicializa timer para coleta de dados de volumes
+                Timer atualizarVolume = new Timer();
+                atualizarVolume.schedule(new AtualizarRegistroVolume(), 0, parametroAlertaAtual.getIntervaloVolumeMs());
 
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
-                ociosidadeMouse.setTempoRestanteSegundos(parametroAlertaAtual.getRegistroMouseSeg());
-                ociosidadeMouse.setSensibilidadeThreshold(parametroAlertaAtual.getSensisbilidadeMouse());
-
-                System.out.println("Login com sucesso. Iniciando captura de dados...");
+                ociosidadeMouse.setTempoDecrescenteMs(parametroAlertaAtual.getTimerMouseMs());
+                ociosidadeMouse.setSensibilidadeThreshold(parametroAlertaAtual.getSensibilidadeMouse());
                 ociosidadeMouse.iniciar();
 
                 continuar = false;
