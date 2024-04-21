@@ -4,10 +4,7 @@ import com.cw.dao.*;
 import com.cw.database.CriarTabelas;
 import com.cw.database.PopularTabelas;
 import com.cw.models.*;
-import com.cw.services.AtualizarRegistroVolume;
-import com.cw.services.AtualizarRegistro;
-import com.cw.services.OciosidadeMouse;
-import com.cw.services.RegistrarMaquina;
+import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
 
 import java.util.Scanner;
@@ -32,6 +29,9 @@ public class MainCW {
                 \\____/\\___/_/ /_/\\__/\\___/_/    |__/|__/\\__,_/\\__/\\___/_/ /_/\s
                                                                              \s                                                                         
                 """);
+
+        CriarTabelas.criarTabelas();
+        PopularTabelas.popularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
@@ -67,13 +67,15 @@ public class MainCW {
 
                 System.out.println("Login com sucesso. Iniciando captura de dados...");
 
+                Alerta alerta = new Alerta(parametroAlertaAtual);
+
                 // Inicializa timer para coleta de dados de CPU e RAM
                 Timer atualizarRegistro = new Timer();
-                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual), 0, parametroAlertaAtual.getIntervaloRegistroMs());
+                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual, alerta), 0, parametroAlertaAtual.getIntervaloRegistroMs());
 
                 // Inicializa timer para coleta de dados de volumes
                 Timer atualizarVolume = new Timer();
-                atualizarVolume.schedule(new AtualizarRegistroVolume(), 0, parametroAlertaAtual.getIntervaloVolumeMs());
+                atualizarVolume.schedule(new AtualizarRegistroVolume(alerta), 0, parametroAlertaAtual.getIntervaloVolumeMs());
 
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);

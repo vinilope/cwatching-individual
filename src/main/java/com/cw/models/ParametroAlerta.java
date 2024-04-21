@@ -5,18 +5,20 @@ public class ParametroAlerta {
     private Double maxCpu;
     private Double maxRam;
     private Double maxVolume;
-    private Integer sensisbilidadeMouse;
-    private Integer registroMouseSeg;
-    private Integer registroMaquinaSeg;
+    private Integer sensibilidadeMouse;
+    private Integer timerMouseMs;
+    private Integer intervaloRegistroMs;
+    private Integer intervaloVolumeMs;
 
-    public ParametroAlerta(Integer idParametro, Double maxCpu, Double maxRam, Double maxVolume, Integer sensisbilidadeMouse, Integer registroMouseSeg, Integer registroMaquinaSeg) {
+    public ParametroAlerta(Integer idParametro, Double maxCpu, Double maxRam, Double maxVolume, Integer sensibilidadeMouse, Integer timerMouseMs, Integer intervaloRegistroMs, Integer intervaloVolumeMs) {
         this.idParametro = idParametro;
         this.maxCpu = maxCpu;
         this.maxRam = maxRam;
         this.maxVolume = maxVolume;
-        this.sensisbilidadeMouse = sensisbilidadeMouse;
-        this.registroMouseSeg = registroMouseSeg;
-        this.registroMaquinaSeg = registroMaquinaSeg;
+        this.sensibilidadeMouse = sensibilidadeMouse;
+        this.timerMouseMs = timerMouseMs;
+        this.intervaloRegistroMs = intervaloRegistroMs;
+        this.intervaloVolumeMs = intervaloVolumeMs;
     }
 
     public ParametroAlerta() {
@@ -54,27 +56,49 @@ public class ParametroAlerta {
         this.maxVolume = maxVolume;
     }
 
-    public Integer getSensisbilidadeMouse() {
-        return sensisbilidadeMouse;
+    public Integer getSensibilidadeMouse() {
+        return sensibilidadeMouse;
     }
 
-    public void setSensisbilidadeMouse(Integer sensisbilidadeMouse) {
-        this.sensisbilidadeMouse = sensisbilidadeMouse;
+    public void setSensibilidadeMouse(Integer sensibilidadeMouse) {
+        this.sensibilidadeMouse = sensibilidadeMouse;
     }
 
-    public Integer getRegistroMouseSeg() {
-        return registroMouseSeg;
+    public Integer getTimerMouseMs() {
+        return timerMouseMs;
     }
 
-    public void setRegistroMouseSeg(Integer registroMouseSeg) {
-        this.registroMouseSeg = registroMouseSeg;
+    public void setTimerMouseMs(Integer timerMouseMs) {
+        this.timerMouseMs = timerMouseMs;
     }
 
-    public Integer getRegistroMaquinaSeg() {
-        return registroMaquinaSeg;
+    public Integer getIntervaloRegistroMs() {
+        return intervaloRegistroMs;
     }
 
-    public void setRegistroMaquinaSeg(Integer registroMaquinaSeg) {
-        this.registroMaquinaSeg = registroMaquinaSeg;
+    public void setIntervaloRegistroMs(Integer intervaloRegistroMs) {
+        this.intervaloRegistroMs = intervaloRegistroMs;
+    }
+
+    public Integer getIntervaloVolumeMs() {
+        return intervaloVolumeMs;
+    }
+
+    public void setIntervaloVolumeMs(Integer intervaloVolumeMs) {
+        this.intervaloVolumeMs = intervaloVolumeMs;
+    }
+
+    @Override
+    public String toString() {
+        return "ParametroAlerta{" +
+                "idParametro=" + idParametro +
+                ", maxCpu=" + maxCpu +
+                ", maxRam=" + maxRam +
+                ", maxVolume=" + maxVolume +
+                ", sensibilidadeMouse=" + sensibilidadeMouse +
+                ", timerMouseMs=" + timerMouseMs +
+                ", intervaloRegistroMs=" + intervaloRegistroMs +
+                ", intervaloVolumeMs=" + intervaloVolumeMs +
+                '}';
     }
 }

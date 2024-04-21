@@ -15,6 +15,9 @@ public class Registro {
         this.fkSessao = fkSessao;
     }
 
+    public Registro() {
+    }
+
     public Integer getIdRegistro() {
         return idRegistro;
     }

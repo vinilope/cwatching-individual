@@ -7,7 +7,7 @@ import com.cw.models.Usuario;
 import java.awt.*;
 
 public class OciosidadeMouse {
-    private final Boolean DEBUG = true;
+    private final Boolean DEBUG = false;
 
     private Integer tempoDecrescenteMs;
     private Integer tempoCrescenteMs;
