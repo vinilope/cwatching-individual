@@ -11,12 +11,18 @@
   <component name="ChangeListManager">
     <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/cwatching_jar/cwatching.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/cwatching_jar/cwatching.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/TestesMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/TestesMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/ParametroAlertaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/ParametroAlertaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/UsuarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/UsuarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/ParametroAlerta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/ParametroAlerta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/LoginUsuario.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +56,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.AtualizarRegistro.executor": "Run",
+    "Application.CriarTabelas.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.MainCW.executor": "Run",
+    "Application.PopularTabelas.executor": "Run",
     "Application.TestesMain.executor": "Run",
     "Application.VerificarRede.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -61,10 +69,11 @@
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.MainCW">
     <configuration name="AtualizarRegistro" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cw.services.AtualizarRegistro" />
       <module name="cwatching" />
@@ -130,5 +139,16 @@
       <updated>1713366438549</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
