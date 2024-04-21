@@ -7,26 +7,23 @@ import com.cw.models.Usuario;
 import java.awt.*;
 
 public class OciosidadeMouse {
-    private final Boolean DEBUG = false;
+    private final Boolean DEBUG = true;
 
-    private Integer tempoDecrescenteSegundos;
+    private Integer tempoDecrescenteMs;
+    private Integer tempoCrescenteMs;
+
     private Integer tempoDecrescente;
-    private Integer tempoCrescente;
 
     private Integer sensibilidadeThreshold;
 
-    private Boolean timerDecrescenteIsRunning;
-    private Boolean mouseIsMoving;
+    private Boolean timerDecrescenteRodando;
+    private Boolean mouseMoveu;
 
     private Usuario usuario;
 
     public OciosidadeMouse(Usuario usuario) {
-        this.tempoDecrescenteSegundos = 45;
-        this.timerDecrescenteIsRunning = false;
-        this.mouseIsMoving = false;
-        this.tempoDecrescente = tempoDecrescenteSegundos * 1000;
-        this.tempoCrescente = 0;
-        this.sensibilidadeThreshold = 0;
+        this.timerDecrescenteRodando = false;
+        this.tempoCrescenteMs = 0;
         this.usuario = usuario;
     }
 
@@ -34,49 +31,36 @@ public class OciosidadeMouse {
         new Thread(threadMouse).start();
     }
 
-    public void setTempoRestanteSegundos(Integer tempoDecrescenteSegundos) {
-        this.tempoDecrescenteSegundos = tempoDecrescenteSegundos;
-    }
-
-    public void setSensibilidadeThreshold(Integer sensibilidadeThreshold) {
-        if (sensibilidadeThreshold < 0 || sensibilidadeThreshold > 100) return;
-        this.sensibilidadeThreshold = sensibilidadeThreshold;
-    }
-
-    public static Point getCoord() {
-        return MouseInfo.getPointerInfo().getLocation();
-    }
-
-    public void handleMovimentoMouse() {
-        if (mouseIsMoving)
-            tempoDecrescente = tempoDecrescenteSegundos * 1000;
-
-        if (mouseIsMoving && !timerDecrescenteIsRunning) {
-            timerDecrescenteIsRunning = true;
-            new Thread(threadTimerDecrescente).start();
-        }
-    }
-
     private Runnable threadMouse = new Runnable() {
         public void run() {
-            Point coordAnterior = getCoord();
             try {
+                // Busca coordenadas do mouse em dois intervalos de tempo
+                Point coordAnterior = getCoordenadaMouse();
                 Thread.sleep(300);
-                Point coordAtual = getCoord();
+                Point coordAtual = getCoordenadaMouse();
 
+                // Cálculo para checar se mouse moveu dentro de uma threshold estabelecida com base em suas coordenadas
                 int intervaloXMenor = coordAtual.x - sensibilidadeThreshold;
                 int intervaloXMaior = coordAtual.x + sensibilidadeThreshold;
                 int intervaloYMenor = coordAtual.y - sensibilidadeThreshold;
                 int intervaloYMaior = coordAtual.y + sensibilidadeThreshold;
 
-                mouseIsMoving = (
+                mouseMoveu = (
                         (coordAnterior.x < intervaloXMenor) ||
                                 (coordAnterior.x > intervaloXMaior) ||
                                 (coordAnterior.y < intervaloYMenor) ||
                                 (coordAnterior.y > intervaloYMaior)
                 );
 
-                handleMovimentoMouse();
+
+                if (mouseMoveu)
+                    tempoDecrescente = tempoDecrescenteMs; // Reseta a contagem regressiva caso o mouse mova
+
+                if (mouseMoveu && !timerDecrescenteRodando) {
+                    timerDecrescenteRodando = true;
+                    new Thread(threadTimerDecrescente).start(); // Inicia a contagem regressiva
+                }
+
                 run();
             } catch (Exception e) {}
         }
@@ -87,15 +71,16 @@ public class OciosidadeMouse {
             try {
                 tempoDecrescente -= 100;
                 Thread.sleep(100);
-                if (DEBUG && tempoDecrescente % 1000 == 0) System.out.println("Falta para ocioso: " + tempoDecrescente/1000);
+                if (DEBUG && tempoDecrescente % 1000 == 0) System.out.println("Falta para ocioso: " + tempoDecrescente);
 
                 if (tempoDecrescente <= 0)
                     throw new RuntimeException();
 
                 run();
             } catch (Exception e) {
-                timerDecrescenteIsRunning = false;
-                new Thread(threadTimerCrescente).start();
+                // Contagem regressiva chegou à zero
+                timerDecrescenteRodando = false;
+                new Thread(threadTimerCrescente).start(); // Inicia a contagem do tempo de ociosidade
             }
         }
     };
@@ -103,25 +88,35 @@ public class OciosidadeMouse {
     private Runnable threadTimerCrescente = new Runnable() {
         public void run() {
             try {
-                tempoCrescente += 100;
+                tempoCrescenteMs += 100;
                 Thread.sleep(100);
 
-                if (DEBUG && tempoCrescente % 1000 == 0) System.out.println("Ocioso: " + tempoCrescente/1000);
+                if (DEBUG && tempoCrescenteMs % 1000 == 0) System.out.println("Ocioso: " + tempoCrescenteMs);
 
-                if (mouseIsMoving)
+                if (mouseMoveu)
                     throw new RuntimeException();
 
                 run();
             } catch (Exception e) {
-                System.out.println(usuario);
-                new OciosidadeMouseDAO().inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescente/1000, usuario.getIdUsuario()));
-                System.out.println("Inserido %d segundos".formatted(tempoCrescente/1000));
-                tempoCrescente = 0;
+                // Insere o tempo da ociosidade da vez e reseta o timer
+                new OciosidadeMouseDAO().inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescenteMs, usuario.getIdUsuario()));
+                if (DEBUG) System.out.println("Inserido %d segundos".formatted(tempoCrescenteMs));
+                tempoCrescenteMs = 0;
             }
         }
     };
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public Point getCoordenadaMouse() {
+        return MouseInfo.getPointerInfo().getLocation();
+    }
+
+    public void setTempoDecrescenteMs(Integer tempoDecrescenteMs) {
+        this.tempoDecrescenteMs = tempoDecrescenteMs;
+        this.tempoDecrescente = tempoDecrescenteMs;
+    }
+
+    public void setSensibilidadeThreshold(Integer sensibilidadeThreshold) {
+        if (sensibilidadeThreshold < 0 || sensibilidadeThreshold > 100) return;
+        this.sensibilidadeThreshold = sensibilidadeThreshold;
     }
 }
