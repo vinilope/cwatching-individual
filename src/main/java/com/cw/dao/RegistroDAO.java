@@ -15,8 +15,14 @@ public class RegistroDAO {
     }
 
     public Registro buscarUltimoRegistroPorSessao(Sessao s) {
+        Registro r = new Registro();
         String sql = "SELECT * FROM registro WHERE fk_sessao = %d ORDER BY dt_hora DESC LIMIT 1".formatted(s.getIdSessao());
-        return con.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class));
+
+        try {
+            r = con.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class));
+        } catch (Exception e) {}
+
+        return r;
     }
 
     public void inserirRegistro(Registro r) {

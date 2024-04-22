@@ -25,8 +25,8 @@ public class CriarTabelas {
                 nome_fantasia VARCHAR(45) NOT NULL,
                 razao_social VARCHAR(45) NOT NULL,
                 cnpj CHAR(14) NOT NULL,
-                fk_filial INT,
-                CONSTRAINT fk_filial_empresa FOREIGN KEY (fk_filial) REFERENCES empresa(id_empresa),
+                fk_matriz INT,
+                CONSTRAINT fk_matriz_empresa FOREIGN KEY (fk_matriz) REFERENCES empresa(id_empresa),
                 fk_endereco INT,
                 CONSTRAINT fk_endereco_empresa FOREIGN KEY (fk_endereco) REFERENCES endereco(id_endereco)
             ) AUTO_INCREMENT = 1000;
@@ -113,17 +113,6 @@ public class CriarTabelas {
                 CONSTRAINT fk_funcionario_artigo FOREIGN KEY (fk_funcionario) REFERENCES funcionario(id_funcionario)
             );
                         
-            CREATE TABLE ocorrencia (
-                id_ocorrencia INT PRIMARY KEY AUTO_INCREMENT,
-                titulo VARCHAR(45),
-                descricao VARCHAR(255),
-                dt_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-                prioridade VARCHAR(45),
-                fk_funcionario INT,
-                CONSTRAINT fk_funcionario_ocorrencia FOREIGN KEY (fk_funcionario) REFERENCES funcionario(id_funcionario),
-                fk_atribuido INT
-            );
-                        
             CREATE TABLE maquina (
                 id_maquina INT PRIMARY KEY AUTO_INCREMENT,
                 hostname VARCHAR(80),
@@ -141,6 +130,16 @@ public class CriarTabelas {
                 dt_hora_sessao DATETIME DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT fk_maquina_sessao FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina),
                 CONSTRAINT fk_usuario_sessao FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario)
+            );
+                        
+            CREATE TABLE ocorrencia (
+                id_ocorrencia INT PRIMARY KEY AUTO_INCREMENT,
+                titulo VARCHAR(45),
+                descricao VARCHAR(255),
+                dt_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+                prioridade VARCHAR(45),
+                fk_sessao INT,
+                CONSTRAINT fk_sessao_ocorrencia FOREIGN KEY (fk_sessao) REFERENCES sessao(id_sessao)
             );
                         
             CREATE TABLE registro (

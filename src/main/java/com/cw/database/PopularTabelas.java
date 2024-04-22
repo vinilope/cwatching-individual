@@ -20,7 +20,7 @@ public class PopularTabelas {
                 INSERT INTO empresa (nome_fantasia, razao_social, cnpj, fk_endereco)
                 VALUES ('Global Tech', 'Global Tech S.A.', '98765432000199', 2);
                 
-                INSERT INTO empresa (nome_fantasia, razao_social, cnpj, fk_filial, fk_endereco)
+                INSERT INTO empresa (nome_fantasia, razao_social, cnpj, fk_matriz, fk_endereco)
                 VALUES ('Filial Centro', 'Centro Filial Ltda.', '11223344000188', 1000, 1);
                 
                 -- PARÂMETROS DE CONFIGURAÇÃO
