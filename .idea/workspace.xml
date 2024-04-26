@@ -10,10 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/cwatching_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/cwatching_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/PopularTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/PopularTabelas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/cwatching_jar/cwatching.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,12 +53,14 @@
     "Application.PopularTabelas.executor": "Run",
     "Application.TestesMain.executor": "Run",
     "Application.VerificarRede.executor": "Run",
+    "Maven.cwatching [clean].executor": "Run",
+    "Maven.cwatching [install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/viniz/Elera/OneDrive/sptech/not/exercicio-heranca-vinilope",
+    "last_opened_file_path": "C:/Users/viniz/Elera/OneDrive/sptech/pi/demo/cwatching",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
