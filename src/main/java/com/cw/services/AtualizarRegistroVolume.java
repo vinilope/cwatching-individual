@@ -25,8 +25,24 @@ public class AtualizarRegistroVolume extends TimerTask {
         try {
             for (Volume v : volumeAtual) {
                 RegistroVolume registroVolume = new RegistroVolume(v.getDisponivel(), v.getTotal(), v.getUUID());
-                alerta.verificarAlerta(registroVolume);
+
                 registroVolumeDAO.inserirRegistroVolume(registroVolume);
+
+                System.out.println("""
+                -----------------------------------------
+                Registro %s %s
+                -----------------------------------------
+                Ponto de montagem: %s
+                Disponível (GB): %.2f GB
+                Disponível (%%): %.2f%%
+                -----------------------------------------
+                """.formatted(
+                        v.getNome(),
+                        alerta.verificarAlerta(registroVolume) ? "⚠ ALERTA ⚠" : "",
+                        v.getPontoDeMontagem(),
+                        Conversor.converterBytesParaGb(v.getDisponivel()),
+                        Conversor.converterPorcentagem(v.getTotal(), v.getDisponivel())
+                ));
             }
 
         } catch (Exception e) {

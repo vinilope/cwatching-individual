@@ -12,7 +12,7 @@ import java.util.Timer;
 
 public class MainCW {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Buscar hostname da máquina atual
         String hostname = new Looca().getRede().getParametros().getHostName();
 
@@ -30,8 +30,8 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        CriarTabelas.criarTabelas();
-        PopularTabelas.popularTabelas();
+//        CriarTabelas.criarTabelas();
+//        PopularTabelas.popularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
@@ -48,10 +48,11 @@ public class MainCW {
             if (userDao.autenticarLogin(username, senha)) {
                 // Usuário está logado
 
+                // Busca a empresa pelo usuário logado
                 Empresa empresa = userDao.buscarEmpresaPorUsername(username);
 
+                // Busca os parâmetros definidos pela empresa
                 ParametroAlerta parametroAlertaAtual = parametroAlertaDAO.buscarParametroAlertaPorEmpresa(empresa);
-                System.out.println(parametroAlertaAtual);
 
                 // Cadastra a máquina atual caso ela não esteja no banco
                 RegistrarMaquina registrarMaquina = new RegistrarMaquina();
@@ -61,11 +62,33 @@ public class MainCW {
                 Usuario usuario = userDao.buscarUsuarioPorUsername(username);
                 Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(hostname, empresa);
 
+                System.out.println("\nCadastrando máquina...");
+                System.out.println(maquina);
+
+                Thread.sleep(400);
+
                 // Registra a sessão criada ao logar
                 sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
                 Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
 
-                System.out.println("Login com sucesso. Iniciando captura de dados...");
+                Funcionario funcionario = userDao.buscarFuncionarioPorUsername(username);
+
+                System.out.println("Login com sucesso. Registrando sessão...");
+                System.out.println("""
+                        \n----------------------------
+                        Sessão %s
+                        ----------------------------
+                        Nome: %s %s
+                        Cargo: %s
+                        Máquina: %s
+                        ----------------------------
+                        """.formatted(
+                                sessaoAtual.getDtHoraSessao(),
+                        funcionario.getPrimeiroNome(),
+                        funcionario.getSobrenome(),
+                        funcionario.getCargo(),
+                        maquina.getHostname()
+                ));
 
                 Alerta alerta = new Alerta(parametroAlertaAtual);
 

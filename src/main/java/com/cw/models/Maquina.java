@@ -1,5 +1,7 @@
 package com.cw.models;
 
+import com.cw.services.Conversor;
+
 public class Maquina {
     private Integer idMaquina;
     private String so;
@@ -68,13 +70,11 @@ public class Maquina {
 
     @Override
     public String toString() {
-        return "Maquina{" +
-                "idMaquina=" + idMaquina +
-                ", so='" + so + '\'' +
-                ", cpu='" + cpu + '\'' +
-                ", ram=" + ram +
-                ", hostname='" + hostname + '\'' +
-                ", fkEmpresa=" + fkEmpresa +
-                '}';
+        return """
+                Hostname: %s
+                Sistema Operacional: %s
+                Processador: %s
+                RAM: %.1f GB
+                """.formatted(hostname, so, cpu, Conversor.converterBytesParaGb(ram));
     }
 }

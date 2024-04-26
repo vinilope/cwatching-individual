@@ -8,7 +8,7 @@ public class VerificarRede {
 
         try {
             InetAddress address = InetAddress.getByName("google.com");
-            conectada = address.isReachable (10000);
+            conectada = address.isReachable(10000);
         } catch (Exception e) {}
 
         return conectada;
