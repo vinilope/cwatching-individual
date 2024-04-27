@@ -9,17 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cw/Teste.java" afterDir="false" />
+    <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="add verificação de conexão com internet no registro">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/conexao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/conexao/Conexao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Registro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/Alerta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/Alerta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/VerificarRede.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/VerificarRede.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +148,15 @@
       <option name="presentableId" value="Default" />
       <updated>1713366438549</updated>
     </task>
+    <task id="LOCAL-00001" summary="add verificação de conexão com internet no registro">
+      <option name="closed" value="true" />
+      <created>1714233584759</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714233584759</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,5 +199,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add verificação de conexão com internet no registro" />
+    <option name="LAST_COMMIT_MESSAGE" value="add verificação de conexão com internet no registro" />
   </component>
 </project>

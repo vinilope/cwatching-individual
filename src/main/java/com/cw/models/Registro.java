@@ -77,4 +77,17 @@ public class Registro {
     public void setFkSessao(Integer fkSessao) {
         this.fkSessao = fkSessao;
     }
+
+    @Override
+    public String toString() {
+        return "Registro{" +
+                "idRegistro=" + idRegistro +
+                ", dtHora='" + dtHora + '\'' +
+                ", usoCpu=" + usoCpu +
+                ", usoRam=" + usoRam +
+                ", disponivelRam=" + disponivelRam +
+                ", conexaoInternet=" + conexaoInternet +
+                ", fkSessao=" + fkSessao +
+                '}';
+    }
 }

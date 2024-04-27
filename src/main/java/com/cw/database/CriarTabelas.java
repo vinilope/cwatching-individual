@@ -152,6 +152,14 @@ public class CriarTabelas {
                 fk_sessao INT,
                 CONSTRAINT fk_sessao_registro FOREIGN KEY (fk_sessao) REFERENCES sessao(id_sessao)
             );
+            
+            CREATE TABLE log_conexao (
+                id_log_con INT PRIMARY KEY AUTO_INCREMENT,
+                dt_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+                estado_con TINYINT DEFAULT 0,
+                fK_registro INT,
+                constraint fk_registro_log_conexao FOREIGN KEY (fk_registro) REFERENCES registro(id_registro)
+            );
                         
             CREATE TABLE volume (
                 uuid CHAR(36) PRIMARY KEY,

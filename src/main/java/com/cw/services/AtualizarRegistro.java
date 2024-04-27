@@ -1,5 +1,6 @@
 package com.cw.services;
 
+import com.cw.dao.LogConexaoDAO;
 import com.cw.dao.ProcessoDAO;
 import com.cw.dao.RegistroDAO;
 import com.cw.models.ParametroAlerta;
@@ -26,6 +27,7 @@ public class AtualizarRegistro extends TimerTask {
 
     private RegistroDAO registroDAO = new RegistroDAO();
     private ProcessoDAO processoDAO = new ProcessoDAO();
+    private LogConexaoDAO logConexaoDAO = new LogConexaoDAO();
 
     private Boolean registrarProcessos = true;
 
@@ -47,6 +49,16 @@ public class AtualizarRegistro extends TimerTask {
             registroDAO.inserirRegistro(registro);
 
             Registro r = registroDAO.buscarUltimoRegistroPorSessao(sessao);
+
+            List<Registro> registros = registroDAO.buscarDoisUltimosRegistrosPorSessao(sessao);
+
+            if (registros.size() == 2 && (registros.get(0).getConexaoInternet() != registros.get(1).getConexaoInternet())) {
+                logConexaoDAO.inserirLogConexaoPorRegistro(registros.get(0));
+
+                if (registros.get(0).getConexaoInternet()) {
+                    System.out.println(logConexaoDAO.buscarDuracaoUltimaMudanca());
+                }
+            }
 
             String[] alertas = alerta.verificarAlerta(r);
 
