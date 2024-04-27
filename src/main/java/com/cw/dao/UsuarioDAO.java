@@ -2,6 +2,7 @@ package com.cw.dao;
 
 import com.cw.conexao.Conexao;
 import com.cw.models.Empresa;
+import com.cw.models.Funcionario;
 import com.cw.models.Usuario;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,13 +32,14 @@ public class UsuarioDAO {
     }
 
     public Empresa buscarEmpresaPorUsername(String username) {
-//        Integer id = 0;
-
         String sql = "SELECT * FROM empresa JOIN funcionario ON fk_empresa = id_empresa JOIN usuario ON id_usuario = id_funcionario WHERE username = '%s'".formatted(username);
-//        Empresa empresa = con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
-
-//        if (empresa != null) id = empresa.getIdEmpresa();
 
         return con.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
+    }
+
+    public Funcionario buscarFuncionarioPorUsername(String username) {
+        String sql = "SELECT * FROM funcionario JOIN usuario ON id_usuario = id_funcionario WHERE username = '%s'".formatted(username);
+
+        return con.queryForObject(sql, new BeanPropertyRowMapper<>(Funcionario.class));
     }
 }

@@ -1,41 +1,56 @@
 package com.cw.services;
 
 import com.cw.models.ParametroAlerta;
+import com.cw.models.Processo;
 import com.cw.models.Registro;
 import com.cw.models.RegistroVolume;
 import com.github.britooo.looca.api.core.Looca;
 
+import java.util.List;
+
 public class Alerta {
     private ParametroAlerta parametro;
-    Boolean alerta = false;
+    private Boolean registrarProcessos;
+
+    String[] alerta = {"", ""};
 
     Looca looca = new Looca();
 
     public Alerta(ParametroAlerta parametro) {
         this.parametro = parametro;
+        this.registrarProcessos = true;
     }
 
-    public Boolean verificarAlerta(Registro r) {
-        alerta = false;
+    public String[] verificarAlerta(Registro r) {
 
-        Double ram = (double)r.getUsoRam()/(double)(looca.getMemoria().getTotal())*100;
-        if (ram > parametro.getMaxRam()) {
-            System.out.println("Alerta RAM: %.2f".formatted(ram));
-            alerta = true;
-        }
+        Double ram = Conversor.converterPorcentagem(looca.getMemoria().getTotal(), r.getUsoRam());
+        alerta[0] = r.getUsoCpu() > parametro.getMaxCpu() ? "cpu" : "";
 
-        if (r.getUsoCpu() > parametro.getMaxCpu()) {
-            System.out.println("Alerta CPU: %.2f".formatted(r.getUsoCpu()));
-            alerta = true;
-        }
+        alerta[1] = ram > parametro.getMaxRam() ? "ram" : "";
 
         return alerta;
     }
 
-    public void verificarAlerta(RegistroVolume v) {
-        Double disponivel = (double)v.getVolumeDisponivel()/(double)(v.getVolumeTotal())*100;
-        if (disponivel < (100.0 - parametro.getMaxVolume())) {
-            System.out.println("Alerta Volume %s: %.2f".formatted(v.getFkVolume(), disponivel));
+    public Boolean verificarAlerta(RegistroVolume v) {
+        Double disponivel = Conversor.converterPorcentagem(v.getVolumeTotal(), v.getVolumeDisponivel());
+        return disponivel < (100.0 - parametro.getMaxVolume());
+    }
+
+    public void listarProcessosEmAlerta(List<Processo> processos, Registro r) {
+        System.out.println("----------------------------");
+        System.out.println("Processos %s".formatted(r.getDtHora()));
+        System.out.println("----------------------------");
+
+        for (Processo processo : processos) {
+            System.out.println(processo);
         }
+    }
+
+    public Boolean getRegistrarProcessos() {
+        return registrarProcessos;
+    }
+
+    public void setRegistrarProcessos(Boolean registrarProcessos) {
+        this.registrarProcessos = registrarProcessos;
     }
 }

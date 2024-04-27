@@ -1,5 +1,7 @@
 package com.cw.models;
 
+import com.cw.services.Conversor;
+
 public class Processo {
     private Integer idProcesso;
     private String nome;
@@ -12,6 +14,9 @@ public class Processo {
         this.caminho = caminho;
         this.usoRam = usoRam;
         this.fkRegistro = fkRegistro;
+    }
+
+    public Processo() {
     }
 
     public Integer getIdProcesso() {
@@ -56,12 +61,10 @@ public class Processo {
 
     @Override
     public String toString() {
-        return "Processo{" +
-                "idProcesso=" + idProcesso +
-                ", nome='" + nome + '\'' +
-                ", caminho='" + caminho + '\'' +
-                ", usoRam=" + usoRam +
-                ", fkRegistro=" + fkRegistro +
-                '}';
+        return """
+                Nome: %s
+                Uso de RAM: %.1f GB
+                Caminho: %s
+                """.formatted(nome, Conversor.converterBytesParaGb(usoRam), caminho);
     }
 }
