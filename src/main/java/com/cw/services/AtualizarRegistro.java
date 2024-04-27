@@ -22,6 +22,8 @@ public class AtualizarRegistro extends TimerTask {
     private Looca looca = new Looca();
     private SystemInfo oshi = new SystemInfo();
 
+    VerificarRede verificarRede;
+
     private RegistroDAO registroDAO = new RegistroDAO();
     private ProcessoDAO processoDAO = new ProcessoDAO();
 
@@ -30,6 +32,7 @@ public class AtualizarRegistro extends TimerTask {
     public AtualizarRegistro(Sessao sessao, Alerta alerta) {
         this.sessao = sessao;
         this.alerta = alerta;
+        this.verificarRede = new VerificarRede(alerta.getParametro().getIntervaloRegistroMs());
     }
 
     public void run() {
@@ -38,6 +41,7 @@ public class AtualizarRegistro extends TimerTask {
                     looca.getProcessador().getUso()*10,
                     looca.getMemoria().getEmUso(),
                     looca.getMemoria().getDisponivel(),
+                    verificarRede.redeConectada(),
                     sessao.getIdSessao());
 
             registroDAO.inserirRegistro(registro);
@@ -82,14 +86,20 @@ public class AtualizarRegistro extends TimerTask {
                 ----------------------------
                 Uso de CPU: %.2f%% %s
                 Uso de RAM: %.2f%% %s
+                Conexão Internet: %s
                 ----------------------------
                 """.formatted(
                         r.getDtHora(),
                         r.getUsoCpu() > 100.0 ? 100.0 : r.getUsoCpu(),
                         alerta[0].equals("cpu") ? "⚠ ALERTA ⚠" : "",
                         Conversor.converterPorcentagem((r.getDisponivelRam()+r.getUsoRam()), r.getUsoRam()),
-                        alerta[1].equals("ram") ? "⚠ ALERTA ⚠" : ""
+                        alerta[1].equals("ram") ? "⚠ ALERTA ⚠" : "",
+                        r.getConexaoInternet() ? "Sim" : "Não"
         ));
+    }
+
+    public Integer getIntervaloRegistro() {
+        return this.alerta.getParametro().getIntervaloRegistroMs();
     }
 }
 

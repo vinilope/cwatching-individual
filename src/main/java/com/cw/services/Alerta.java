@@ -53,4 +53,8 @@ public class Alerta {
     public void setRegistrarProcessos(Boolean registrarProcessos) {
         this.registrarProcessos = registrarProcessos;
     }
+
+    public ParametroAlerta getParametro() {
+        return parametro;
+    }
 }

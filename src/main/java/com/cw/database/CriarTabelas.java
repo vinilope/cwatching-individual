@@ -6,9 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CriarTabelas {
     public static void criarTabelas() {
         String sql = """
-            DROP DATABASE IF EXISTS cwdb;
-            CREATE DATABASE cwdb;
-            USE cwdb;
+            DROP DATABASE IF EXISTS cwdb_individual;
+            CREATE DATABASE cwdb_individual;
+            USE cwdb_individual;
             
             CREATE TABLE endereco (
                 id_endereco INT PRIMARY KEY AUTO_INCREMENT,
@@ -148,6 +148,7 @@ public class CriarTabelas {
                 uso_cpu DECIMAL(4, 1),
                 uso_ram BIGINT,
                 disponivel_ram BIGINT,
+                conexao_internet TINYINT DEFAULT 0,
                 fk_sessao INT,
                 CONSTRAINT fk_sessao_registro FOREIGN KEY (fk_sessao) REFERENCES sessao(id_sessao)
             );

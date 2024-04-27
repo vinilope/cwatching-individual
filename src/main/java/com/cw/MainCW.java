@@ -30,8 +30,8 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-//        CriarTabelas.criarTabelas();
-//        PopularTabelas.popularTabelas();
+        CriarTabelas.criarTabelas();
+        PopularTabelas.popularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
