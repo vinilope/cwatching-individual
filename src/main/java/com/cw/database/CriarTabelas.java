@@ -109,6 +109,7 @@ public class CriarTabelas {
                 descricao VARCHAR(2000),
                 categoria VARCHAR(45),
                 palavra_chave VARCHAR(45),
+                data_de_criacao DATE DEFAULT (current_date),
                 fk_funcionario INT,
                 CONSTRAINT fk_funcionario_artigo FOREIGN KEY (fk_funcionario) REFERENCES funcionario(id_funcionario)
             );
