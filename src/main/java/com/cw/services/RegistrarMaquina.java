@@ -45,6 +45,7 @@ public class RegistrarMaquina {
                     volume.getUUID(),
                     volume.getNome(),
                     volume.getPontoDeMontagem(),
+                    volume.getTotal(),
                     maquina.getIdMaquina()
             ));
         }

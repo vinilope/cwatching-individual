@@ -3,13 +3,11 @@ package com.cw.models;
 public class RegistroVolume {
     private Integer idRegistroVolume;
     private Long volumeDisponivel;
-    private Long volumeTotal;
     private String dtHora;
     private String fkVolume;
 
-    public RegistroVolume(Long volumeDisponivel, Long volumeTotal, String fkVolume) {
+    public RegistroVolume(Long volumeDisponivel, String fkVolume) {
         this.volumeDisponivel = volumeDisponivel;
-        this.volumeTotal = volumeTotal;
         this.fkVolume = fkVolume;
     }
 
@@ -40,14 +38,6 @@ public class RegistroVolume {
         this.dtHora = dtHora;
     }
 
-    public Long getVolumeTotal() {
-        return volumeTotal;
-    }
-
-    public void setVolumeTotal(Long volumeTotal) {
-        this.volumeTotal = volumeTotal;
-    }
-
     public String getFkVolume() {
         return fkVolume;
     }
@@ -62,7 +52,6 @@ public class RegistroVolume {
                 "idRegistroVolume=" + idRegistroVolume +
                 ", volumeDisponivel=" + volumeDisponivel +
                 ", dtHora='" + dtHora + '\'' +
-                ", volumeTotal=" + volumeTotal +
                 ", fkVolume=" + fkVolume +
                 '}';
     }

@@ -74,7 +74,7 @@ public class Maquina {
                 Hostname: %s
                 Sistema Operacional: %s
                 Processador: %s
-                RAM: %.1f GB
-                """.formatted(hostname, so, cpu, Conversor.converterBytesParaGb(ram));
+                RAM: %d B
+                """.formatted(hostname, so, cpu, ram);
     }
 }

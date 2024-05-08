@@ -10,8 +10,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/OciosidadeMouseDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/OciosidadeMouseDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroVolumeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/RegistroVolumeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/VolumeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/VolumeDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/PopularTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/PopularTabelas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Maquina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Maquina.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroOciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroOciosidadeMouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroVolume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/RegistroVolume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/models/Volume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/models/Volume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/Alerta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/InserirAlerta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/Conversor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/Conversor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/IntervaloRegistroProcessos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/IntervaloRegistroProcessos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +66,7 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.MainCW.executor&quot;: &quot;Run&quot;,
     &quot;Application.PopularTabelas.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Testes.executor&quot;: &quot;Run&quot;,
     &quot;Application.TestesMain.executor&quot;: &quot;Run&quot;,
     &quot;Application.VerificarRede.executor&quot;: &quot;Run&quot;,
     &quot;Maven.cwatching [clean].executor&quot;: &quot;Run&quot;,
@@ -86,6 +104,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Testes" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Testes" />
+      <module name="cwatching" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestesMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cw.TestesMain" />
       <module name="cwatching" />
@@ -115,6 +140,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainCW" />
+        <item itemvalue="Application.Testes" />
         <item itemvalue="Application.TestesMain" />
         <item itemvalue="Application.VerificarRede" />
         <item itemvalue="Application.AtualizarRegistro" />

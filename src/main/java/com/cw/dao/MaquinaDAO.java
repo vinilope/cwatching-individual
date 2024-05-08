@@ -14,7 +14,7 @@ public class MaquinaDAO {
     }
 
     public void inserirMaquina(Maquina m) {
-        String sql = "INSERT INTO maquina (so, cpu, ram, hostname, fk_empresa) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, fk_empresa) VALUES (?, ?, ?, ?, ?)";
         con.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getFkEmpresa());
     }
 

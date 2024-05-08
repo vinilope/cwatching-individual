@@ -4,6 +4,7 @@ import com.cw.dao.*;
 import com.cw.database.CriarTabelas;
 import com.cw.database.PopularTabelas;
 import com.cw.models.*;
+import com.cw.models.Alerta;
 import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
 
@@ -30,8 +31,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-//        CriarTabelas.criarTabelas();
-//        PopularTabelas.popularTabelas();
+        CriarTabelas.criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
@@ -90,7 +90,7 @@ public class MainCW {
                         maquina.getHostname()
                 ));
 
-                Alerta alerta = new Alerta(parametroAlertaAtual);
+                InserirAlerta alerta = new InserirAlerta(parametroAlertaAtual);
 
                 // Inicializa timer para coleta de dados de CPU e RAM
                 Timer atualizarRegistro = new Timer();

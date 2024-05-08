@@ -7,7 +7,7 @@ import com.cw.models.Usuario;
 import java.awt.*;
 
 public class OciosidadeMouse {
-    private final Boolean DEBUG = false;
+    private final Boolean DEBUG = true;
 
     private Integer tempoDecrescenteMs;
     private Integer tempoCrescenteMs;
@@ -18,6 +18,8 @@ public class OciosidadeMouse {
 
     private Boolean timerDecrescenteRodando;
     private Boolean mouseMoveu;
+
+    OciosidadeMouseDAO ociosidadeMouseDAO = new OciosidadeMouseDAO();
 
     private Usuario usuario;
 
@@ -99,8 +101,11 @@ public class OciosidadeMouse {
                 run();
             } catch (Exception e) {
                 // Insere o tempo da ociosidade da vez e reseta o timer
-                new OciosidadeMouseDAO().inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescenteMs, usuario.getIdUsuario()));
+                ociosidadeMouseDAO.inserirOciosidadeMouse(new RegistroOciosidadeMouse(tempoCrescenteMs, usuario.getIdUsuario()));
+                System.out.println(ociosidadeMouseDAO.buscarUltimoRegistroOciosidadePorUsuario(usuario));
+
                 if (DEBUG) System.out.println("Inserido %d segundos".formatted(tempoCrescenteMs));
+
                 tempoCrescenteMs = 0;
             }
         }

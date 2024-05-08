@@ -4,16 +4,15 @@ public class Volume {
     private String UUID;
     private String nome;
     private String pontoMontagem;
+    private Long volumeTotal;
     private Integer fkMaquina;
 
-    public Volume(String UUID, String nome, String pontoMontagem, Integer fkMaquina) {
+    public Volume(String UUID, String nome, String pontoMontagem, Long volumeTotal, Integer fkMaquina) {
         this.UUID = UUID;
         this.nome = nome;
         this.pontoMontagem = pontoMontagem;
+        this.volumeTotal = volumeTotal;
         this.fkMaquina = fkMaquina;
-    }
-
-    public Volume() {
     }
 
     public String getUUID() {
@@ -40,6 +39,14 @@ public class Volume {
         this.pontoMontagem = pontoMontagem;
     }
 
+    public Long getVolumeTotal() {
+        return volumeTotal;
+    }
+
+    public void setVolumeTotal(Long volumeTotal) {
+        this.volumeTotal = volumeTotal;
+    }
+
     public Integer getFkMaquina() {
         return fkMaquina;
     }
@@ -51,9 +58,10 @@ public class Volume {
     @Override
     public String toString() {
         return "Volume{" +
-                "UUID=" + UUID +
+                "UUID='" + UUID + '\'' +
                 ", nome='" + nome + '\'' +
                 ", pontoMontagem='" + pontoMontagem + '\'' +
+                ", volumeTotal=" + volumeTotal +
                 ", fkMaquina=" + fkMaquina +
                 '}';
     }

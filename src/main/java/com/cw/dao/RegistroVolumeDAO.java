@@ -13,7 +13,7 @@ public class RegistroVolumeDAO {
     }
 
     public void inserirRegistroVolume(RegistroVolume r) {
-        String sql = "INSERT INTO registro_volume (volume_disponivel, volume_total, fk_volume) VALUES (?, ?, ?)";
-        con.update(sql, r.getVolumeDisponivel(), r.getVolumeTotal(), r.getFkVolume());
+        String sql = "INSERT INTO registro_volume (volume_disponivel, fk_volume) VALUES (?, ?)";
+        con.update(sql, r.getVolumeDisponivel(), r.getFkVolume());
     }
 }

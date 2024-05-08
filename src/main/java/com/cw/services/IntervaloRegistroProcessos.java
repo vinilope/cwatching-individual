@@ -3,10 +3,10 @@ package com.cw.services;
 import java.util.TimerTask;
 
 public class IntervaloRegistroProcessos extends TimerTask {
-    private Alerta alerta;
+    private InserirAlerta inserirAlerta;
 
-    public IntervaloRegistroProcessos(Alerta alerta) {
-        this.alerta = alerta;
+    public IntervaloRegistroProcessos(InserirAlerta inserirAlerta) {
+        this.inserirAlerta = inserirAlerta;
     }
 
     public IntervaloRegistroProcessos() {
@@ -14,6 +14,6 @@ public class IntervaloRegistroProcessos extends TimerTask {
 
     @Override
     public void run() {
-        alerta.setRegistrarProcessos(true);
+        inserirAlerta.setRegistrarProcessos(true);
     }
 }

@@ -1,7 +1,6 @@
 package com.cw.services;
 
 import com.cw.dao.RegistroVolumeDAO;
-import com.cw.models.Registro;
 import com.cw.models.RegistroVolume;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Volume;
@@ -10,13 +9,13 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class AtualizarRegistroVolume extends TimerTask {
-    private Alerta alerta;
+    private InserirAlerta inserirAlerta;
 
     private Looca looca = new Looca();
     private RegistroVolumeDAO registroVolumeDAO = new RegistroVolumeDAO();
 
-    public AtualizarRegistroVolume(Alerta alerta) {
-        this.alerta = alerta;
+    public AtualizarRegistroVolume(InserirAlerta inserirAlerta) {
+        this.inserirAlerta = inserirAlerta;
     }
 
     public void run() {
@@ -24,7 +23,7 @@ public class AtualizarRegistroVolume extends TimerTask {
 
         try {
             for (Volume v : volumeAtual) {
-                RegistroVolume registroVolume = new RegistroVolume(v.getDisponivel(), v.getTotal(), v.getUUID());
+                RegistroVolume registroVolume = new RegistroVolume(v.getDisponivel(), v.getUUID());
 
                 registroVolumeDAO.inserirRegistroVolume(registroVolume);
 
@@ -38,7 +37,7 @@ public class AtualizarRegistroVolume extends TimerTask {
                 -----------------------------------------
                 """.formatted(
                         v.getNome(),
-                        alerta.verificarAlerta(registroVolume) ? "⚠ ALERTA ⚠" : "",
+                        inserirAlerta.verificarAlerta(registroVolume, v.getTotal()) ? "# ALERTA #" : "",
                         v.getPontoDeMontagem(),
                         Conversor.converterBytesParaGb(v.getDisponivel()),
                         Conversor.converterPorcentagem(v.getTotal(), v.getDisponivel())

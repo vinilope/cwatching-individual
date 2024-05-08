@@ -2,7 +2,6 @@ package com.cw.services;
 
 import com.cw.dao.ProcessoDAO;
 import com.cw.dao.RegistroDAO;
-import com.cw.models.ParametroAlerta;
 import com.cw.models.Processo;
 import com.cw.models.Registro;
 import com.cw.models.Sessao;
@@ -10,14 +9,12 @@ import com.github.britooo.looca.api.core.Looca;
 import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class AtualizarRegistro extends TimerTask {
     private Sessao sessao;
-    private Alerta alerta;
+    private InserirAlerta inserirAlerta;
 
     private Looca looca = new Looca();
     private SystemInfo oshi = new SystemInfo();
@@ -27,9 +24,9 @@ public class AtualizarRegistro extends TimerTask {
 
     private Boolean registrarProcessos = true;
 
-    public AtualizarRegistro(Sessao sessao, Alerta alerta) {
+    public AtualizarRegistro(Sessao sessao, InserirAlerta inserirAlerta) {
         this.sessao = sessao;
-        this.alerta = alerta;
+        this.inserirAlerta = inserirAlerta;
     }
 
     public void run() {
@@ -44,18 +41,16 @@ public class AtualizarRegistro extends TimerTask {
 
             Registro r = registroDAO.buscarUltimoRegistroPorSessao(sessao);
 
-            String[] alertas = alerta.verificarAlerta(r);
+            if (inserirAlerta.verificarAlerta(r)) registrarProcessos(r);
 
-            if (!(alertas[0].isEmpty() && alertas[1].isEmpty())) registrarProcessos(r);
-
-            exibirUltimoRegistro(r, alertas);
+            exibirUltimoRegistro(r);
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
     public void registrarProcessos(Registro r) {
-        if (!alerta.getRegistrarProcessos()) return;
+        if (!inserirAlerta.getRegistrarProcessos()) return;
 
         for (OSProcess processo : oshi.getOperatingSystem().getProcesses()) {
             if ((!processo.getPath().contains("C:\\Windows\\System32\\") && !processo.getPath().isEmpty())) {
@@ -69,26 +64,24 @@ public class AtualizarRegistro extends TimerTask {
             }
         }
 
-        alerta.setRegistrarProcessos(false);
-        new Timer().schedule(new IntervaloRegistroProcessos(alerta), 15000);
+        inserirAlerta.setRegistrarProcessos(false);
+        new Timer().schedule(new IntervaloRegistroProcessos(inserirAlerta), 15000);
 
-        alerta.listarProcessosEmAlerta(processoDAO.buscarDezProcessosComMaisMemoria(r), r);
+        inserirAlerta.listarProcessosEmAlerta(processoDAO.buscarDezProcessosComMaisMemoria(r), r);
     }
 
-    public void exibirUltimoRegistro(Registro r, String[] alerta) {
+    public void exibirUltimoRegistro(Registro r) {
         System.out.println("""
                 ----------------------------
                 Registro %s
                 ----------------------------
-                Uso de CPU: %.2f%% %s
-                Uso de RAM: %.2f%% %s
+                Uso de CPU: %.2f%%
+                Uso de RAM: %.2f%%
                 ----------------------------
                 """.formatted(
                         r.getDtHora(),
                         r.getUsoCpu() > 100.0 ? 100.0 : r.getUsoCpu(),
-                        alerta[0].equals("cpu") ? "⚠ ALERTA ⚠" : "",
-                        Conversor.converterPorcentagem((r.getDisponivelRam()+r.getUsoRam()), r.getUsoRam()),
-                        alerta[1].equals("ram") ? "⚠ ALERTA ⚠" : ""
+                        Conversor.converterPorcentagem((r.getDisponivelRam()+r.getUsoRam()), r.getUsoRam())
         ));
     }
 }

@@ -17,8 +17,8 @@ public class VolumeDAO {
     }
 
     public void inserirVolume(Volume v) {
-        String sql = "INSERT INTO volume (uuid, nome, ponto_montagem, fk_maquina) VALUES (?, ?, ?, ?)";
-        con.update(sql, v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getFkMaquina());
+        String sql = "INSERT INTO volume (uuid, nome, ponto_montagem, volume_total, fk_maquina) VALUES (?, ?, ?, ?, ?)";
+        con.update(sql, v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getVolumeTotal(), v.getFkMaquina());
     }
 
     public List<Volume> buscarVolumesPorMaquina(Maquina m) {
