@@ -1,10 +1,8 @@
 package com.cw;
 
 import com.cw.dao.*;
-import com.cw.database.CriarTabelas;
-import com.cw.database.PopularTabelas;
+import com.cw.database.CriarPopularTabelas;
 import com.cw.models.*;
-import com.cw.models.Alerta;
 import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
 
@@ -31,7 +29,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        CriarTabelas.criarPopularTabelas();
+        CriarPopularTabelas.criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;

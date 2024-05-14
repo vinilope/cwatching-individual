@@ -3,7 +3,7 @@ package com.cw.database;
 import com.cw.conexao.Conexao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class CriarTabelas {
+public class CriarPopularTabelas {
     public static void criarPopularTabelas() {
         String sql = """
                 DROP DATABASE IF EXISTS cwdb;
@@ -179,7 +179,7 @@ public class CriarTabelas {
                             
                 CREATE TABLE processo (
                     id_processo INT PRIMARY KEY AUTO_INCREMENT,
-                    nome VARCHAR(45),
+                    nome VARCHAR(80),
                     caminho VARCHAR(255),
                     uso_ram BIGINT,
                     fk_registro INT,

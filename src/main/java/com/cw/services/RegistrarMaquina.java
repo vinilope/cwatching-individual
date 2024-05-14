@@ -28,27 +28,45 @@ public class RegistrarMaquina {
 
     public void registrarMaquinaSeNaoExiste(Empresa e) {
         Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
+        Boolean dadosMaquinaAlterado = maquinaDAO.verificarComponentesMaquinaExistente(maquinaAtual);
 
         if (!maquinaExiste) {
-            this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
-            maquinaDAO.inserirMaquina(maquinaAtual);
-            registrarGrupoVolumePorMaquina(e);
+                this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
+                maquinaDAO.inserirMaquina(maquinaAtual,e);
+                registrarGrupoVolumePorMaquina(e);
+            }
         }
+
+
+
+    private void atualizarGrupoVolumeExistente(Empresa e) {
+
+        Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
+        List<Volume> volumes = looca.getGrupoDeDiscos().getVolumes();
+
     }
 
     public void registrarGrupoVolumePorMaquina(Empresa e) {
+        Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
         Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(looca.getRede().getParametros().getHostName(), e);
         List<Volume> volumes = looca.getGrupoDeDiscos().getVolumes();
 
-        for (Volume volume : volumes) {
-            volumeDAO.inserirVolume(new com.cw.models.Volume(
-                    volume.getUUID(),
-                    volume.getNome(),
-                    volume.getPontoDeMontagem(),
-                    volume.getTotal(),
-                    maquina.getIdMaquina()
-            ));
+        if (!maquinaExiste) {
+            for (Volume volume : volumes) {
+                volumeDAO.inserirVolume(new com.cw.models.Volume(
+                        volume.getUUID(),
+                        volume.getNome(),
+                        volume.getPontoDeMontagem(),
+                        volume.getTotal(),
+                        maquina.getIdMaquina()
+                ));
+            }
         }
-    };
+        /*else {
+            atualizarMaquinaExistente(e);
+        }*/
+    }
+
+    ;
 
 }
