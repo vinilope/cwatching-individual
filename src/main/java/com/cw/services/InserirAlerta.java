@@ -42,8 +42,11 @@ public class InserirAlerta {
     }
 
     public Boolean verificarAlerta(RegistroVolume r, Long total) {
-        Double disponivel = Conversor.converterPorcentagem(total, r.getVolumeDisponivel());
-        return disponivel < (100.0 - parametro.getMaxVolume());
+        Boolean emAlerta = Conversor.converterPorcentagem(total, r.getVolumeDisponivel()) < (100.0 - parametro.getMaxVolume());
+
+//        if (emAlerta) alertaDAO.inserirAlerta(new com.cw.models.Alerta("disco", r.getFkSessao()));
+
+        return emAlerta;
     }
 
     public void listarProcessosEmAlerta(List<Processo> processos, Registro r) {
