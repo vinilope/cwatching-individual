@@ -39,9 +39,6 @@ public class RegistrarMaquina {
         if (!dadosMaquinaAlterado) {
             maquinaDAO.atualizarMaquina(maquinaAtual, e);
         }
-        this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
-        maquinaDAO.inserirMaquina(maquinaAtual, e);
-        registrarGrupoVolumePorMaquina(e);
     }
 
 
@@ -53,24 +50,18 @@ public class RegistrarMaquina {
     }
 
     public void registrarGrupoVolumePorMaquina(Empresa e) {
-        Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
         Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(looca.getRede().getParametros().getHostName(), e);
         List<Volume> volumes = looca.getGrupoDeDiscos().getVolumes();
 
-        if (!maquinaExiste) {
-            for (Volume volume : volumes) {
-                volumeDAO.inserirVolume(new com.cw.models.Volume(
-                        volume.getUUID(),
-                        volume.getNome(),
-                        volume.getPontoDeMontagem(),
-                        volume.getTotal(),
-                        maquina.getIdMaquina()
-                ));
-            }
+        for (Volume volume : volumes) {
+            volumeDAO.inserirVolume(new com.cw.models.Volume(
+                    volume.getUUID(),
+                    volume.getNome(),
+                    volume.getPontoDeMontagem(),
+                    volume.getTotal(),
+                    maquina.getIdMaquina()
+            ));
         }
-        /*else {
-            atualizarMaquinaExistente(e);
-        }*/
     }
 
     ;
