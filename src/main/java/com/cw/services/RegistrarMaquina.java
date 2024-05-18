@@ -31,12 +31,18 @@ public class RegistrarMaquina {
         Boolean dadosMaquinaAlterado = maquinaDAO.verificarComponentesMaquinaExistente(maquinaAtual);
 
         if (!maquinaExiste) {
-                this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
-                maquinaDAO.inserirMaquina(maquinaAtual,e);
-                registrarGrupoVolumePorMaquina(e);
-            }
+            this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
+            maquinaDAO.inserirMaquina(maquinaAtual, e);
+            registrarGrupoVolumePorMaquina(e);
         }
 
+        if (!dadosMaquinaAlterado) {
+            maquinaDAO.atualizarMaquina(maquinaAtual, e);
+        }
+        this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
+        maquinaDAO.inserirMaquina(maquinaAtual, e);
+        registrarGrupoVolumePorMaquina(e);
+    }
 
 
     private void atualizarGrupoVolumeExistente(Empresa e) {

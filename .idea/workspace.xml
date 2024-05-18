@@ -11,21 +11,13 @@
   <component name="ChangeListManager">
     <list default="true" id="724465b6-f04b-4087-8885-ea8306413a9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/MainCW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/VolumeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/VolumeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarTabelas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/database/CriarPopularTabelas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/database/PopularTabelas.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" afterDir="false" />
-=======
       <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/conexao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/conexao/Conexao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/dao/MaquinaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/OciosidadeMouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/RegistrarMaquina.java" afterDir="false" />
     </list>
-    <list id="3eda691f-9b3b-4734-a218-d0220c8c7767" name="Changes by viniz" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/AtualizarRegistroVolume.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cw/services/InserirAlerta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cw/services/InserirAlerta.java" afterDir="false" />
->>>>>>> 8bac102162a98ead73e54c4893066decd831546f
-    </list>
+    <list id="3eda691f-9b3b-4734-a218-d0220c8c7767" name="Changes by viniz" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,8 +37,8 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
+    &quot;associatedIndex&quot;: 6
+    }</component>
   <component name="ProjectId" id="2fEVt8HDRxNyJAfpihIIUjCgqwr" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -72,25 +64,15 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-<<<<<<< HEAD
-    "last_opened_file_path": "C:/Users/Alfa User/Documents/Faculdade/PI/cwatching",
+    "last_opened_file_path": "C:/Users/scort/Desktop/faculdade/projeto de pi/cwatching",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
-=======
-    "last_opened_file_path": "C:/Users/scort/Desktop/faculdade/projeto de pi/cwatching",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
->>>>>>> 8bac102162a98ead73e54c4893066decd831546f
   }
 }]]></component>
   <component name="RunManager" selected="Application.MainCW">
@@ -165,13 +147,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713366438549</updated>
-      <workItem from="1715394569110" duration="2057000" />
-      <workItem from="1715463602400" duration="5019000" />
-      <workItem from="1715629699365" duration="248000" />
-      <workItem from="1715686770941" duration="21000" />
-      <workItem from="1715688672324" duration="11632000" />
-      <workItem from="1715715601536" duration="2382000" />
-      <workItem from="1715721198429" duration="599000" />
     </task>
     <servers />
   </component>
@@ -218,5 +193,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

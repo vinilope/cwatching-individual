@@ -29,7 +29,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        CriarPopularTabelas.criarPopularTabelas();
+        // CriarPopularTabelas.criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
