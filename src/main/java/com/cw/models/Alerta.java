@@ -2,16 +2,16 @@ package com.cw.models;
 
 public class Alerta {
     private Integer idAlerta;
-    private String dtHora;
     private String tipo;
-    private Integer fkSessao;
+    private String descricao;
+    private Integer fkRegistro;
+    private Integer fkRegVolume;
 
-    public Alerta(String tipo, Integer fkSessao) {
+    public Alerta(String tipo, String descricao, Integer fkRegistro, Integer fkRegVolume) {
         this.tipo = tipo;
-        this.fkSessao = fkSessao;
-    }
-
-    public Alerta() {
+        this.descricao = descricao;
+        this.fkRegistro = fkRegistro;
+        this.fkRegVolume = fkRegVolume;
     }
 
     public Integer getIdAlerta() {
@@ -22,14 +22,6 @@ public class Alerta {
         this.idAlerta = idAlerta;
     }
 
-    public String getDtHora() {
-        return dtHora;
-    }
-
-    public void setDtHora(String dtHora) {
-        this.dtHora = dtHora;
-    }
-
     public String getTipo() {
         return tipo;
     }
@@ -38,21 +30,38 @@ public class Alerta {
         this.tipo = tipo;
     }
 
-    public Integer getFkSessao() {
-        return fkSessao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setFkSessao(Integer fkSessao) {
-        this.fkSessao = fkSessao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Integer getFkRegistro() {
+        return fkRegistro;
+    }
+
+    public void setFkRegistro(Integer fkRegistro) {
+        this.fkRegistro = fkRegistro;
+    }
+
+    public Integer getFkRegVolume() {
+        return fkRegVolume;
+    }
+
+    public void setFkRegVolume(Integer fkRegVolume) {
+        this.fkRegVolume = fkRegVolume;
     }
 
     @Override
     public String toString() {
-        return "InserirAlerta{" +
+        return "Alerta{" +
                 "idAlerta=" + idAlerta +
-                ", dtHora='" + dtHora + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", fkSessao=" + fkSessao +
+                ", descricao='" + descricao + '\'' +
+                ", fkRegistro=" + fkRegistro +
+                ", fkRegVolume=" + fkRegVolume +
                 '}';
     }
 }

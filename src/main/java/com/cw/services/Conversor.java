@@ -6,7 +6,6 @@ public class Conversor {
     }
 
     public static Double converterBytesParaGb(Long bytes) {
-        System.out.println(bytes);
         return (double)bytes / (Math.pow(10.0, 9.0));
     }
 }

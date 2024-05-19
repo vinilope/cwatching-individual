@@ -12,8 +12,8 @@ public class AlertaDAO {
     }
 
     public void inserirAlerta(Alerta l) {
-        String sql = "INSERT INTO alerta(tipo, fk_sessao) values (?, ?)";
-        con.update(sql, l.getTipo(), l.getFkSessao());
-        System.out.println(l);
+        System.out.println("Inserindo alerta...");
+        String sql = "INSERT INTO alerta(tipo, descricao, fk_registro, fk_reg_volume) values (?, ?, ?, ?)";
+        con.update(sql, l.getTipo(), l.getDescricao(), l.getFkRegistro(), l.getFkRegVolume());
     }
 }

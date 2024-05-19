@@ -1,50 +1,77 @@
 package com.cw.services;
 
 import com.cw.dao.AlertaDAO;
+import com.cw.dao.OcorrenciaDAO;
 import com.cw.models.*;
 import com.github.britooo.looca.api.core.Looca;
 
 import java.util.List;
 
 public class InserirAlerta {
-    private ParametroAlerta parametro;
+    private Config config;
     private Boolean registrarProcessos;
     private AlertaDAO alertaDAO;
+    private OcorrenciaDAO ocorrenciaDAO;
+    private Integer decrementoOcorrencia;
 
-    String[] alerta = {"", ""};
+    private final Integer TEMPO_OCORRENCIA = 5;
 
     Looca looca = new Looca();
 
-    public InserirAlerta(ParametroAlerta parametro) {
-        this.parametro = parametro;
+    public InserirAlerta(Config config) {
+        this.config = config;
         this.registrarProcessos = true;
         alertaDAO = new AlertaDAO();
+        ocorrenciaDAO = new OcorrenciaDAO();
+        decrementoOcorrencia = TEMPO_OCORRENCIA;
     }
-
-//    public String[] verificarAlerta(Registro r) {
-//
-//        Double ram = Conversor.converterPorcentagem(looca.getMemoria().getTotal(), r.getUsoRam());
-//        alerta[0] = r.getUsoCpu() > parametro.getMaxCpu() ? "cpu" : "";
-//
-//        alerta[1] = ram > parametro.getMaxRam() ? "ram" : "";
-//
-//        return alerta;
-//    }
 
     public Boolean verificarAlerta(Registro r) {
         Double ramPer = Conversor.converterPorcentagem(looca.getMemoria().getTotal(), r.getUsoRam());
         Double cpuPer = r.getUsoCpu();
 
-        if (ramPer > parametro.getMaxRam()) alertaDAO.inserirAlerta(new com.cw.models.Alerta("ram", r.getFkSessao()));
-        if (cpuPer > parametro.getMaxCpu()) alertaDAO.inserirAlerta(new com.cw.models.Alerta("cpu", r.getFkSessao()));
+        Boolean emAlerta = (ramPer > config.getMaxRam()) || (cpuPer > config.getMaxCpu());
 
-        return ((ramPer > parametro.getMaxRam()) || (cpuPer > parametro.getMaxCpu()));
+        if (emAlerta) decrementoOcorrencia -= 1;
+
+        if (ramPer > config.getMaxRam()) {
+            alertaDAO.inserirAlerta(new Alerta("RAM", "%.1f%%".formatted(ramPer), r.getIdRegistro(), null));
+
+            if (decrementoOcorrencia <= 0) {
+                ocorrenciaDAO.inserirOcorrencia(new Ocorrencia(
+                        "Alerta Uso de RAM",
+                        "A RAM permaneceu acima de %.1f%% por %d segundos.".formatted(config.getMaxRam(), TEMPO_OCORRENCIA * config.getIntervaloRegistroMs() / 1000),
+                        "[SISTEMA] RAM",
+                        r.getFkSessao()
+                ));
+
+                decrementoOcorrencia = TEMPO_OCORRENCIA;
+            }
+        };
+
+        if (cpuPer > config.getMaxCpu()) {
+            alertaDAO.inserirAlerta(new Alerta("CPU", "%.1f%%".formatted(cpuPer), r.getIdRegistro(), null));
+
+            if (decrementoOcorrencia <= 0) {
+                ocorrenciaDAO.inserirOcorrencia(new Ocorrencia(
+                        "Alerta Uso de CPU",
+                        "A CPU permaneceu acima de %.1f%% por %d segundos.".formatted(config.getMaxCpu(), TEMPO_OCORRENCIA * 2),
+                        "[SISTEMA] CPU",
+                        r.getFkSessao()
+                ));
+
+                decrementoOcorrencia = TEMPO_OCORRENCIA;
+            }
+        };
+
+        return emAlerta;
     }
 
     public Boolean verificarAlerta(RegistroVolume r, Long total) {
-        Boolean emAlerta = Conversor.converterPorcentagem(total, r.getVolumeDisponivel()) < (100.0 - parametro.getMaxVolume());
+        Double perVolume = Conversor.converterPorcentagem(total, r.getVolumeDisponivel());
+        Boolean emAlerta = perVolume < (100.0 - config.getMaxVolume());
 
-//        if (emAlerta) alertaDAO.inserirAlerta(new com.cw.models.Alerta("disco", r.getFkSessao()));
+        if (emAlerta) alertaDAO.inserirAlerta(new Alerta("Volume", "%.1f%%".formatted(perVolume), null, r.getIdRegistroVolume()));
 
         return emAlerta;
     }

@@ -32,7 +32,7 @@ public class AtualizarRegistro extends TimerTask {
     public void run() {
         try {
             Registro registro = new Registro(
-                    looca.getProcessador().getUso()*10,
+                    looca.getProcessador().getUso()*10 > 100 ? 100.0 : looca.getProcessador().getUso()*10,
                     looca.getMemoria().getEmUso(),
                     looca.getMemoria().getDisponivel(),
                     sessao.getIdSessao());
@@ -42,10 +42,8 @@ public class AtualizarRegistro extends TimerTask {
             Registro r = registroDAO.buscarUltimoRegistroPorSessao(sessao);
 
             if (inserirAlerta.verificarAlerta(r)) registrarProcessos(r);
-
-            exibirUltimoRegistro(r);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Não foi possivel inserir o registro: " + e);
         }
     }
 
@@ -65,24 +63,12 @@ public class AtualizarRegistro extends TimerTask {
         }
 
         inserirAlerta.setRegistrarProcessos(false);
+
+        // Reinicializando timeout para inserir novamente os processos
+        // TODO: parametrizar o timer
         new Timer().schedule(new IntervaloRegistroProcessos(inserirAlerta), 15000);
 
-        inserirAlerta.listarProcessosEmAlerta(processoDAO.buscarDezProcessosComMaisMemoria(r), r);
-    }
-
-    public void exibirUltimoRegistro(Registro r) {
-        System.out.println("""
-                ----------------------------
-                Registro %s
-                ----------------------------
-                Uso de CPU: %.2f%%
-                Uso de RAM: %.2f%%
-                ----------------------------
-                """.formatted(
-                        r.getDtHora(),
-                        r.getUsoCpu() > 100.0 ? 100.0 : r.getUsoCpu(),
-                        Conversor.converterPorcentagem((r.getDisponivelRam()+r.getUsoRam()), r.getUsoRam())
-        ));
+        System.out.println("Registrando processos...");
     }
 }
 

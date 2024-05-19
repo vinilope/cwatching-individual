@@ -18,7 +18,7 @@ public class MainCW {
         UsuarioDAO userDao = new UsuarioDAO();
         MaquinaDAO maquinaDAO = new MaquinaDAO();
         SessaoDAO sessaoDAO = new SessaoDAO();
-        ParametroAlertaDAO parametroAlertaDAO = new ParametroAlertaDAO();
+        ConfigDAO configDAO = new ConfigDAO();
 
         System.out.println("""                                                                      
                    ______           __           _       __      __       __ \s
@@ -29,7 +29,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        CriarPopularTabelas.criarPopularTabelas();
+         CriarPopularTabelas.criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
@@ -50,7 +50,8 @@ public class MainCW {
                 Empresa empresa = userDao.buscarEmpresaPorUsername(username);
 
                 // Busca os parâmetros definidos pela empresa
-                ParametroAlerta parametroAlertaAtual = parametroAlertaDAO.buscarParametroAlertaPorEmpresa(empresa);
+                Config configAtual = configDAO.buscarConfigPorEmpresa(empresa);
+                configAtual.setPermProcessos(configDAO.buscarPermProcessosPorConfig(configAtual));
 
                 // Cadastra a máquina atual caso ela não esteja no banco
                 RegistrarMaquina registrarMaquina = new RegistrarMaquina();
@@ -61,9 +62,6 @@ public class MainCW {
                 Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(hostname, empresa);
 
                 System.out.println("\nCadastrando máquina...");
-                System.out.println(maquina);
-
-                Thread.sleep(400);
 
                 // Registra a sessão criada ao logar
                 sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
@@ -72,36 +70,38 @@ public class MainCW {
                 Funcionario funcionario = userDao.buscarFuncionarioPorUsername(username);
 
                 System.out.println("Login com sucesso. Registrando sessão...");
-                System.out.println("""
-                        \n----------------------------
-                        Sessão %s
-                        ----------------------------
-                        Nome: %s %s
-                        Cargo: %s
-                        Máquina: %s
-                        ----------------------------
-                        """.formatted(
-                                sessaoAtual.getDtHoraSessao(),
-                        funcionario.getPrimeiroNome(),
-                        funcionario.getSobrenome(),
-                        funcionario.getCargo(),
-                        maquina.getHostname()
-                ));
 
-                InserirAlerta alerta = new InserirAlerta(parametroAlertaAtual);
+//                System.out.println("""
+//                        \n----------------------------
+//                        Sessão %s
+//                        ----------------------------
+//                        Nome: %s %s
+//                        Cargo: %s
+//                        Máquina: %s
+//                        ----------------------------
+//                        """.formatted(
+//                                sessaoAtual.getDtHoraSessao(),
+//                        funcionario.getPrimeiroNome(),
+//                        funcionario.getSobrenome(),
+//                        funcionario.getCargo(),
+//                        maquina.getHostname()
+//                ));
+
+                InserirAlerta alerta = new InserirAlerta(configAtual);
 
                 // Inicializa timer para coleta de dados de CPU e RAM
+                System.out.println("Iniciando coleta de dados...");
                 Timer atualizarRegistro = new Timer();
-                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual, alerta), 0, parametroAlertaAtual.getIntervaloRegistroMs());
+                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual, alerta), 0, configAtual.getIntervaloRegistroMs());
 
                 // Inicializa timer para coleta de dados de volumes
                 Timer atualizarVolume = new Timer();
-                atualizarVolume.schedule(new AtualizarRegistroVolume(alerta), 0, parametroAlertaAtual.getIntervaloVolumeMs());
+                atualizarVolume.schedule(new AtualizarRegistroVolume(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
 
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
-                ociosidadeMouse.setTempoDecrescenteMs(parametroAlertaAtual.getTimerMouseMs());
-                ociosidadeMouse.setSensibilidadeThreshold(parametroAlertaAtual.getSensibilidadeMouse());
+                ociosidadeMouse.setTempoDecrescenteMs(configAtual.getTimerMouseMs());
+                ociosidadeMouse.setSensibilidadeThreshold(configAtual.getSensibilidadeMouse());
                 ociosidadeMouse.iniciar();
 
                 continuar = false;

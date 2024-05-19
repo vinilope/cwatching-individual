@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class GerarLogs {
-    public Integer QTD_MAX_LINHAS = 10;
+    private final Integer QTD_MAX_LINHAS = 10;
 
     public void gerarLog(String mensagem) {
 

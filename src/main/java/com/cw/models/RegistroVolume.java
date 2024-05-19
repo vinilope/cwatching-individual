@@ -4,10 +4,12 @@ public class RegistroVolume {
     private Integer idRegistroVolume;
     private Long volumeDisponivel;
     private String dtHora;
+    private Integer fkSessao;
     private String fkVolume;
 
-    public RegistroVolume(Long volumeDisponivel, String fkVolume) {
+    public RegistroVolume(Long volumeDisponivel, Integer fkSessao, String fkVolume) {
         this.volumeDisponivel = volumeDisponivel;
+        this.fkSessao = fkSessao;
         this.fkVolume = fkVolume;
     }
 
@@ -38,6 +40,14 @@ public class RegistroVolume {
         this.dtHora = dtHora;
     }
 
+    public Integer getFkSessao() {
+        return fkSessao;
+    }
+
+    public void setFkSessao(Integer fkSessao) {
+        this.fkSessao = fkSessao;
+    }
+
     public String getFkVolume() {
         return fkVolume;
     }
@@ -52,7 +62,8 @@ public class RegistroVolume {
                 "idRegistroVolume=" + idRegistroVolume +
                 ", volumeDisponivel=" + volumeDisponivel +
                 ", dtHora='" + dtHora + '\'' +
-                ", fkVolume=" + fkVolume +
+                ", fkSessao=" + fkSessao +
+                ", fkVolume='" + fkVolume + '\'' +
                 '}';
     }
 }
