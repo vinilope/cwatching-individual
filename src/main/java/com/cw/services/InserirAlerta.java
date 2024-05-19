@@ -38,12 +38,15 @@ public class InserirAlerta {
             alertaDAO.inserirAlerta(new Alerta("RAM", "%.1f%%".formatted(ramPer), r.getIdRegistro(), null));
 
             if (decrementoOcorrencia <= 0) {
-                ocorrenciaDAO.inserirOcorrencia(new Ocorrencia(
+                Ocorrencia o = new Ocorrencia(
                         "Alerta Uso de RAM",
                         "A RAM permaneceu acima de %.1f%% por %d segundos.".formatted(config.getMaxRam(), TEMPO_OCORRENCIA * config.getIntervaloRegistroMs() / 1000),
                         "[SISTEMA] RAM",
                         r.getFkSessao()
-                ));
+                );
+
+                ocorrenciaDAO.inserirOcorrencia(o);
+                Slack.postarOcorrencia(o);
 
                 decrementoOcorrencia = TEMPO_OCORRENCIA;
             }
@@ -53,12 +56,15 @@ public class InserirAlerta {
             alertaDAO.inserirAlerta(new Alerta("CPU", "%.1f%%".formatted(cpuPer), r.getIdRegistro(), null));
 
             if (decrementoOcorrencia <= 0) {
-                ocorrenciaDAO.inserirOcorrencia(new Ocorrencia(
+                Ocorrencia o = new Ocorrencia(
                         "Alerta Uso de CPU",
                         "A CPU permaneceu acima de %.1f%% por %d segundos.".formatted(config.getMaxCpu(), TEMPO_OCORRENCIA * 2),
                         "[SISTEMA] CPU",
                         r.getFkSessao()
-                ));
+                );
+
+                ocorrenciaDAO.inserirOcorrencia(o);
+                Slack.postarOcorrencia(o);
 
                 decrementoOcorrencia = TEMPO_OCORRENCIA;
             }

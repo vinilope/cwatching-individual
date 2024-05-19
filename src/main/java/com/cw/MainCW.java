@@ -5,6 +5,7 @@ import com.cw.database.CriarPopularTabelas;
 import com.cw.models.*;
 import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
+import org.json.JSONObject;
 
 import java.util.Scanner;
 import java.util.Timer;
@@ -29,7 +30,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-         CriarPopularTabelas.criarPopularTabelas();
+//          CriarPopularTabelas.criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
