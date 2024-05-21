@@ -183,6 +183,7 @@ public class CriarPopularTabelas {
                         uso_cpu DECIMAL(4, 1),
                         uso_ram BIGINT,
                         disponivel_ram BIGINT,
+                        uptime BIGINT,
                         fk_sessao INT,
                         CONSTRAINT fk_sessao_registro FOREIGN KEY (fk_sessao) REFERENCES sessao(id_sessao)
                     );

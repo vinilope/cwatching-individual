@@ -30,11 +30,13 @@ public class AtualizarRegistro extends TimerTask {
     }
 
     public void run() {
+
         try {
             Registro registro = new Registro(
                     looca.getProcessador().getUso()*10 > 100 ? 100.0 : looca.getProcessador().getUso()*10,
                     looca.getMemoria().getEmUso(),
                     looca.getMemoria().getDisponivel(),
+                    looca.getSistema().getTempoDeAtividade(),
                     sessao.getIdSessao());
 
             registroDAO.inserirRegistro(registro);
