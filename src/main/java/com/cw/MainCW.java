@@ -90,6 +90,7 @@ public class MainCW {
 
                 InserirAlerta alerta = new InserirAlerta(configAtual);
 
+
                 // Inicializa timer para coleta de dados de CPU e RAM
                 System.out.println("Iniciando coleta de dados...");
                 Timer atualizarRegistro = new Timer();
@@ -104,6 +105,7 @@ public class MainCW {
                 ociosidadeMouse.setTempoDecrescenteMs(configAtual.getTimerMouseMs());
                 ociosidadeMouse.setSensibilidadeThreshold(configAtual.getSensibilidadeMouse());
                 ociosidadeMouse.iniciar();
+
 
                 continuar = false;
             } else {
