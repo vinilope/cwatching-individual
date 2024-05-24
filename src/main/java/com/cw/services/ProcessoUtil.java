@@ -18,9 +18,10 @@ public class ProcessoUtil {
     ProcessoGrupo processos = looca.getGrupoDeProcessos();
     List<Processo> listaProcessos = processos.getProcessos();
 
-    public void limparProcesso(String NomeProcesso){
+    public static void finalizarProcesso(String NomeProcesso){
             try {
                 Runtime.getRuntime().exec("taskkill /F /IM " + NomeProcesso + ".exe" );
+                System.out.println("Processo finalizado: "+NomeProcesso);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

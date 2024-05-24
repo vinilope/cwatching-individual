@@ -7,6 +7,7 @@ import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -20,6 +21,7 @@ public class MainCW {
         MaquinaDAO maquinaDAO = new MaquinaDAO();
         SessaoDAO sessaoDAO = new SessaoDAO();
         ConfigDAO configDAO = new ConfigDAO();
+        PermProcessoDAO permProcessoDAO = new PermProcessoDAO();
 
         System.out.println("""                                                                      
                    ______           __           _       __      __       __ \s
@@ -90,7 +92,6 @@ public class MainCW {
 
                 InserirAlerta alerta = new InserirAlerta(configAtual);
 
-
                 // Inicializa timer para coleta de dados de CPU e RAM
                 System.out.println("Iniciando coleta de dados...");
                 Timer atualizarRegistro = new Timer();
@@ -100,12 +101,15 @@ public class MainCW {
                 Timer atualizarVolume = new Timer();
                 atualizarVolume.schedule(new AtualizarRegistroVolume(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
 
+                // Inicializa timer para monitoramento de processos
+                Timer monitorarProcesso = new Timer();
+                monitorarProcesso.schedule(new MonitorarProcesso(configAtual), 0, 500);
+
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
                 OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
                 ociosidadeMouse.setTempoDecrescenteMs(configAtual.getTimerMouseMs());
                 ociosidadeMouse.setSensibilidadeThreshold(configAtual.getSensibilidadeMouse());
                 ociosidadeMouse.iniciar();
-
 
                 continuar = false;
             } else {

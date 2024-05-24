@@ -12,6 +12,9 @@ public class PermProcesso {
         this.fkConfig = fkConfig;
     }
 
+    public PermProcesso() {
+    }
+
     public Integer getIdPermProcesso() {
         return idPermProcesso;
     }
