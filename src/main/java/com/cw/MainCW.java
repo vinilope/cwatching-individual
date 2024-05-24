@@ -37,6 +37,9 @@ public class MainCW {
         do {
             Scanner leitor = new Scanner(System.in);
 
+//            String username = "lucas@techsolutions.com";
+//            String senha = "lucas789";
+
             System.out.print("Usuário: ");
             String username = leitor.next();
 
@@ -46,6 +49,8 @@ public class MainCW {
             // Autentica o login
             if (userDao.autenticarLogin(username, senha)) {
                 // Usuário está logado
+
+                System.out.println("\nLogin com sucesso. Registrando sessão...");
 
                 // Busca a empresa pelo usuário logado
                 Empresa empresa = userDao.buscarEmpresaPorUsername(username);
@@ -66,12 +71,10 @@ public class MainCW {
                 sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
                 Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
 
-                System.out.println("Login com sucesso. Registrando sessão...");
-
                 AlertaService alerta = new AlertaService(configAtual);
 
                 // Inicializa timer para coleta de dados de CPU e RAM
-                System.out.println("Iniciando coleta de dados...");
+                System.out.println("\nIniciando coleta de dados...\n");
                 Timer atualizarRegistro = new Timer();
                 atualizarRegistro.schedule(new RegistroService(sessaoAtual, alerta), 0, configAtual.getIntervaloRegistroMs());
 

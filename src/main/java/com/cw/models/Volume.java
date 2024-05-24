@@ -15,6 +15,16 @@ public class Volume {
         this.fkMaquina = fkMaquina;
     }
 
+    public Volume(String UUID, String nome, String pontoMontagem, Long volumeTotal) {
+        this.UUID = UUID;
+        this.nome = nome;
+        this.pontoMontagem = pontoMontagem;
+        this.volumeTotal = volumeTotal;
+    }
+
+    public Volume() {
+    }
+
     public String getUUID() {
         return UUID;
     }

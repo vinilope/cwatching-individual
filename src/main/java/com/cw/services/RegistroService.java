@@ -70,7 +70,7 @@ public class RegistroService extends TimerTask {
         // TODO: parametrizar o timer
         new Timer().schedule(new TimerProcessosService(alertaService), 15000);
 
-        System.out.println("Registrando processos...");
+        System.out.println("Registrando processos...\n");
     }
 }
 

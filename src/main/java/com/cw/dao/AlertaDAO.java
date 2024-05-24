@@ -10,7 +10,7 @@ public class AlertaDAO extends Conexao {
     }
 
     public void inserirAlerta(Alerta l) {
-        System.out.println("Inserindo alerta...");
+        System.out.println("Inserindo alerta...\n");
         String sql = "INSERT INTO alerta(tipo, descricao, fk_registro, fk_reg_volume) values (?, ?, ?, ?)";
         conLocal.update(sql, l.getTipo(), l.getDescricao(), l.getFkRegistro(), l.getFkRegVolume());
     }
