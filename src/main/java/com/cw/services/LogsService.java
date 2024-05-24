@@ -5,10 +5,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
-public class GerarLogs {
+public class LogsService {
     private final Integer QTD_MAX_LINHAS = 10;
 
     public void gerarLog(String mensagem) {

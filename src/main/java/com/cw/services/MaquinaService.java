@@ -9,14 +9,14 @@ import com.github.britooo.looca.api.group.discos.Volume;
 
 import java.util.List;
 
-public class RegistrarMaquina {
+public class MaquinaService {
     private Looca looca = new Looca();
     private MaquinaDAO maquinaDAO = new MaquinaDAO();
     private VolumeDAO volumeDAO = new VolumeDAO();
 
     private Maquina maquinaAtual;
 
-    public RegistrarMaquina() {
+    public MaquinaService() {
         this.maquinaAtual = new Maquina(
                 looca.getSistema().getSistemaOperacional(),
                 looca.getProcessador().getNome(),
@@ -29,14 +29,20 @@ public class RegistrarMaquina {
     public void registrarMaquinaSeNaoExiste(Empresa e) {
         Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
         Boolean dadosMaquinaAlterado = maquinaDAO.verificarComponentesMaquinaExistente(maquinaAtual);
+        System.out.println("\nVerificado cadastro da máquina...");
 
         if (!maquinaExiste) {
+            System.out.println("\nMáquina não encontrada. Cadastrando máquina...");
+
             this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
             maquinaDAO.inserirMaquina(maquinaAtual, e);
             registrarGrupoVolumePorMaquina(e);
+        } else {
+            System.out.println("\nMáquina encontrada.");
         }
 
         if (!dadosMaquinaAlterado) {
+            System.out.println("\nDetectada alteração nos componentes. Atualizando dados...");
             maquinaDAO.atualizarMaquina(maquinaAtual, e);
         }
     }

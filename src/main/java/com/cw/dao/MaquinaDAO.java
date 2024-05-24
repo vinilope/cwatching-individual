@@ -6,9 +6,7 @@ import com.cw.models.Maquina;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class MaquinaDAO {
-    private Conexao conexao = new Conexao();
-    private JdbcTemplate con = conexao.getConexaoDoBanco();
+public class MaquinaDAO extends Conexao {
 
     public MaquinaDAO() {
     }
@@ -16,7 +14,7 @@ public class MaquinaDAO {
     public void inserirMaquina(Maquina m, Empresa e) {
         if (!verificarMaquinaExistePorHostnameEEmpresa(m.getHostname(), e)) {
             String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, fk_empresa) VALUES (?, ?, ?, ?, ?)";
-            con.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getFkEmpresa());
+            conLocal.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getFkEmpresa());
         }
     }
 
@@ -28,24 +26,24 @@ public class MaquinaDAO {
                 "ram_total = %d AND" +
                 " so = '%s'").formatted(m.getHostname(), m.getCpu(), m.getRam(), m.getSo());
 
-        return !con.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
+        return !conLocal.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
     }
     public void atualizarMaquina(Maquina m, Empresa e) {
         String sql = ("UPDATE maquina SET so = '%s', cpu_modelo = '%s', ram_total = %d " +
                 "WHERE hostname = '%s' AND fk_empresa = %d").formatted(m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), e.getIdEmpresa());
 
-        con.update(sql);
+        conLocal.update(sql);
 }
 
     public Boolean verificarMaquinaExistePorHostnameEEmpresa(String hostname, Empresa e) {
         String sql = "SELECT hostname FROM maquina WHERE hostname = '%s' AND fk_empresa = %d".formatted(hostname, e.getIdEmpresa());
-        return !con.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
+        return !conLocal.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
 
 
     }
 
     public Maquina buscarMaquinaPorHostnameEEmpresa(String hostname, Empresa e) {
         String sql = "SELECT * FROM maquina WHERE hostname = '%s' AND fk_empresa = %d".formatted(hostname, e.getIdEmpresa());
-        return con.queryForObject(sql, new BeanPropertyRowMapper<>(Maquina.class));
+        return conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Maquina.class));
     }
 }

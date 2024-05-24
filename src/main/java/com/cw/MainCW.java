@@ -5,9 +5,7 @@ import com.cw.database.CriarPopularTabelas;
 import com.cw.models.*;
 import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
-import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -32,7 +30,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-          CriarPopularTabelas.criarPopularTabelas();
+//           new CriarPopularTabelas().criarPopularTabelas();
 
         // Loop para interação com usuário (login)
         Boolean continuar;
@@ -57,59 +55,39 @@ public class MainCW {
                 configAtual.setPermProcessos(configDAO.buscarPermProcessosPorConfig(configAtual));
 
                 // Cadastra a máquina atual caso ela não esteja no banco
-                RegistrarMaquina registrarMaquina = new RegistrarMaquina();
-                registrarMaquina.registrarMaquinaSeNaoExiste(empresa);
+                MaquinaService maquinaService = new MaquinaService();
+                maquinaService.registrarMaquinaSeNaoExiste(empresa);
 
                 // Busca objetos usuário e máquina para ser registrada a sessão criada
                 Usuario usuario = userDao.buscarUsuarioPorUsername(username);
                 Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(hostname, empresa);
 
-                System.out.println("\nCadastrando máquina...");
-
                 // Registra a sessão criada ao logar
                 sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
                 Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
 
-                Funcionario funcionario = userDao.buscarFuncionarioPorUsername(username);
-
                 System.out.println("Login com sucesso. Registrando sessão...");
 
-//                System.out.println("""
-//                        \n----------------------------
-//                        Sessão %s
-//                        ----------------------------
-//                        Nome: %s %s
-//                        Cargo: %s
-//                        Máquina: %s
-//                        ----------------------------
-//                        """.formatted(
-//                                sessaoAtual.getDtHoraSessao(),
-//                        funcionario.getPrimeiroNome(),
-//                        funcionario.getSobrenome(),
-//                        funcionario.getCargo(),
-//                        maquina.getHostname()
-//                ));
-
-                InserirAlerta alerta = new InserirAlerta(configAtual);
+                AlertaService alerta = new AlertaService(configAtual);
 
                 // Inicializa timer para coleta de dados de CPU e RAM
                 System.out.println("Iniciando coleta de dados...");
                 Timer atualizarRegistro = new Timer();
-                atualizarRegistro.schedule(new AtualizarRegistro(sessaoAtual, alerta), 0, configAtual.getIntervaloRegistroMs());
+                atualizarRegistro.schedule(new RegistroService(sessaoAtual, alerta), 0, configAtual.getIntervaloRegistroMs());
 
                 // Inicializa timer para coleta de dados de volumes
                 Timer atualizarVolume = new Timer();
-                atualizarVolume.schedule(new AtualizarRegistroVolume(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
+                atualizarVolume.schedule(new RegistroVolumeService(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
 
                 // Inicializa timer para monitoramento de processos
                 Timer monitorarProcesso = new Timer();
-                monitorarProcesso.schedule(new MonitorarProcesso(configAtual), 0, 500);
+                monitorarProcesso.schedule(new ProcessoService(configAtual), 0, 500);
 
                 // Inicializa o monitoramento de ociosidade de mouse do usuário
-                OciosidadeMouse ociosidadeMouse = new OciosidadeMouse(usuario);
-                ociosidadeMouse.setTempoDecrescenteMs(configAtual.getTimerMouseMs());
-                ociosidadeMouse.setSensibilidadeThreshold(configAtual.getSensibilidadeMouse());
-                ociosidadeMouse.iniciar();
+                OciosidadeService ociosidadeService = new OciosidadeService(usuario);
+                ociosidadeService.setTempoDecrescenteMs(configAtual.getTimerMouseMs());
+                ociosidadeService.setSensibilidadeThreshold(configAtual.getSensibilidadeMouse());
+                ociosidadeService.iniciar();
 
                 continuar = false;
             } else {

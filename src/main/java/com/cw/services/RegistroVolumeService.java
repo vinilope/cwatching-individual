@@ -9,14 +9,14 @@ import com.github.britooo.looca.api.group.discos.Volume;
 import java.util.List;
 import java.util.TimerTask;
 
-public class AtualizarRegistroVolume extends TimerTask {
-    private InserirAlerta inserirAlerta;
+public class RegistroVolumeService extends TimerTask {
+    private AlertaService alertaService;
     private Sessao sessao;
     private Looca looca;
     private RegistroVolumeDAO registroVolumeDAO;
 
-    public AtualizarRegistroVolume(Sessao sessao, InserirAlerta inserirAlerta) {
-        this.inserirAlerta = inserirAlerta;
+    public RegistroVolumeService(Sessao sessao, AlertaService alertaService) {
+        this.alertaService = alertaService;
         this.sessao = sessao;
         this.looca = new Looca();
         this.registroVolumeDAO = new RegistroVolumeDAO();
@@ -30,7 +30,7 @@ public class AtualizarRegistroVolume extends TimerTask {
                 RegistroVolume registroVolume = new RegistroVolume(v.getDisponivel(), sessao.getIdSessao(), v.getUUID());
                 registroVolumeDAO.inserirRegistroVolume(registroVolume);
 
-                inserirAlerta.verificarAlerta(registroVolumeDAO.buscarUltimoRegVolumePorUUID(v.getUUID()), v.getTotal());
+                alertaService.verificarAlerta(registroVolumeDAO.buscarUltimoRegVolumePorUUID(v.getUUID()), v.getTotal());
             }
 
         } catch (Exception e) {

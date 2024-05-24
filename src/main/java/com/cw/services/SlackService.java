@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import com.cw.models.Ocorrencia;
 import org.json.JSONObject;
 
-public class Slack {
+public class SlackService {
     private static HttpClient client = HttpClient.newHttpClient();
     private static final String URL = "https://hooks.slack.com/services/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";
 

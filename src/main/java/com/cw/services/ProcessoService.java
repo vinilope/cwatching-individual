@@ -6,15 +6,16 @@ import com.cw.models.PermProcesso;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.processos.Processo;
 
+import java.io.IOException;
 import java.util.*;
 
-public class MonitorarProcesso extends TimerTask {
+public class ProcessoService extends TimerTask {
     private Config config;
     private List<PermProcesso> permProcessos;
     private PermProcessoDAO permProcessoDAO;
     private Looca looca;
 
-    public MonitorarProcesso(Config config) {
+    public ProcessoService(Config config) {
         this.config = config;
         this.permProcessoDAO = new PermProcessoDAO();
         looca = new Looca();
@@ -30,11 +31,11 @@ public class MonitorarProcesso extends TimerTask {
 
             Boolean permitido = permProcessoDAO.verificarPermProcesso(p, config);
 
-            if (permitido != null && !permitido) ProcessoUtil.finalizarProcesso(p);
+            if (permitido != null && !permitido) finalizarProcesso(p);
         }
     }
 
-    public Boolean verificarProcessoNaLista(String p) {
+    private Boolean verificarProcessoNaLista(String p) {
         for (PermProcesso pp : permProcessos) {
             if (p.equals(pp.getNome())) return true;
         }
@@ -42,7 +43,7 @@ public class MonitorarProcesso extends TimerTask {
         return false;
     }
 
-    public List<String> filtrarProcessoNome(List<Processo> processos) {
+    private List<String> filtrarProcessoNome(List<Processo> processos) {
         List<String> p = new ArrayList<>();
 
         for (Processo processo : processos) {
@@ -50,5 +51,14 @@ public class MonitorarProcesso extends TimerTask {
         }
 
         return p;
+    }
+
+    private void finalizarProcesso(String NomeProcesso){
+        try {
+            Runtime.getRuntime().exec("taskkill /F /IM " + NomeProcesso + ".exe" );
+            System.out.println("Processo finalizado: "+NomeProcesso);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

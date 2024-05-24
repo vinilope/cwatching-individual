@@ -7,7 +7,7 @@ import com.github.britooo.looca.api.core.Looca;
 
 import java.util.List;
 
-public class InserirAlerta {
+public class AlertaService {
     private Config config;
     private Boolean registrarProcessos;
     private AlertaDAO alertaDAO;
@@ -18,7 +18,7 @@ public class InserirAlerta {
 
     Looca looca = new Looca();
 
-    public InserirAlerta(Config config) {
+    public AlertaService(Config config) {
         this.config = config;
         this.registrarProcessos = true;
         alertaDAO = new AlertaDAO();
@@ -27,7 +27,7 @@ public class InserirAlerta {
     }
 
     public Boolean verificarAlerta(Registro r) {
-        Double ramPer = Conversor.converterPorcentagem(looca.getMemoria().getTotal(), r.getUsoRam());
+        Double ramPer = ConversorService.converterPorcentagem(looca.getMemoria().getTotal(), r.getUsoRam());
         Double cpuPer = r.getUsoCpu();
 
         Boolean emAlerta = (ramPer > config.getMaxRam()) || (cpuPer > config.getMaxCpu());
@@ -46,7 +46,7 @@ public class InserirAlerta {
                 );
 
                 ocorrenciaDAO.inserirOcorrencia(o);
-                Slack.postarOcorrencia(o);
+                SlackService.postarOcorrencia(o);
 
                 decrementoOcorrencia = TEMPO_OCORRENCIA;
             }
@@ -64,7 +64,7 @@ public class InserirAlerta {
                 );
 
                 ocorrenciaDAO.inserirOcorrencia(o);
-                Slack.postarOcorrencia(o);
+                SlackService.postarOcorrencia(o);
 
                 decrementoOcorrencia = TEMPO_OCORRENCIA;
             }
@@ -74,7 +74,7 @@ public class InserirAlerta {
     }
 
     public Boolean verificarAlerta(RegistroVolume r, Long total) {
-        Double perVolume = Conversor.converterPorcentagem(total, r.getVolumeDisponivel());
+        Double perVolume = ConversorService.converterPorcentagem(total, r.getVolumeDisponivel());
         Boolean emAlerta = perVolume < (100.0 - config.getMaxVolume());
 
         if (emAlerta) alertaDAO.inserirAlerta(new Alerta("Volume", "%.1f%%".formatted(perVolume), null, r.getIdRegistroVolume()));

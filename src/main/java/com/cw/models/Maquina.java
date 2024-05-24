@@ -1,7 +1,5 @@
 package com.cw.models;
 
-import com.cw.services.Conversor;
-
 public class Maquina {
     private Integer idMaquina;
     private String so;

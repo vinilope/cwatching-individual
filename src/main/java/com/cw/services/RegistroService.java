@@ -12,9 +12,9 @@ import oshi.software.os.OSProcess;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AtualizarRegistro extends TimerTask {
+public class RegistroService extends TimerTask {
     private Sessao sessao;
-    private InserirAlerta inserirAlerta;
+    private AlertaService alertaService;
 
     private Looca looca = new Looca();
     private SystemInfo oshi = new SystemInfo();
@@ -24,9 +24,9 @@ public class AtualizarRegistro extends TimerTask {
 
     private Boolean registrarProcessos = true;
 
-    public AtualizarRegistro(Sessao sessao, InserirAlerta inserirAlerta) {
+    public RegistroService(Sessao sessao, AlertaService alertaService) {
         this.sessao = sessao;
-        this.inserirAlerta = inserirAlerta;
+        this.alertaService = alertaService;
     }
 
     public void run() {
@@ -43,14 +43,14 @@ public class AtualizarRegistro extends TimerTask {
 
             Registro r = registroDAO.buscarUltimoRegistroPorSessao(sessao);
 
-            if (inserirAlerta.verificarAlerta(r)) registrarProcessos(r);
+            if (alertaService.verificarAlerta(r)) registrarProcessos(r);
         } catch (Exception e) {
             System.out.println("Não foi possivel inserir o registro: " + e);
         }
     }
 
     public void registrarProcessos(Registro r) {
-        if (!inserirAlerta.getRegistrarProcessos()) return;
+        if (!alertaService.getRegistrarProcessos()) return;
 
         for (OSProcess processo : oshi.getOperatingSystem().getProcesses()) {
             if ((!processo.getPath().contains("C:\\Windows\\System32\\") && !processo.getPath().isEmpty())) {
@@ -64,11 +64,11 @@ public class AtualizarRegistro extends TimerTask {
             }
         }
 
-        inserirAlerta.setRegistrarProcessos(false);
+        alertaService.setRegistrarProcessos(false);
 
         // Reinicializando timeout para inserir novamente os processos
         // TODO: parametrizar o timer
-        new Timer().schedule(new IntervaloRegistroProcessos(inserirAlerta), 15000);
+        new Timer().schedule(new TimerProcessosService(alertaService), 15000);
 
         System.out.println("Registrando processos...");
     }

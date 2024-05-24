@@ -6,7 +6,7 @@ import com.cw.models.Usuario;
 
 import java.awt.*;
 
-public class OciosidadeMouse {
+public class OciosidadeService {
     private final Boolean DEBUG = false;
 
     private Integer tempoDecrescenteMs;
@@ -23,7 +23,7 @@ public class OciosidadeMouse {
 
     private Usuario usuario;
 
-    public OciosidadeMouse(Usuario usuario) {
+    public OciosidadeService(Usuario usuario) {
         this.timerDecrescenteRodando = false;
         this.tempoCrescenteMs = 0;
         this.usuario = usuario;
