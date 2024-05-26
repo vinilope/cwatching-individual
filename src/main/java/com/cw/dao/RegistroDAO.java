@@ -4,10 +4,12 @@ import com.cw.conexao.Conexao;
 import com.cw.models.Registro;
 import com.cw.models.Sessao;
 import com.cw.models.Usuario;
+import com.cw.services.LogsService;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class RegistroDAO extends Conexao {
+    //TODO: remover formatted
 
     public RegistroDAO() {
     }
@@ -18,13 +20,20 @@ public class RegistroDAO extends Conexao {
 
         try {
             r = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            LogsService.gerarLog("Falha ao buscar último registro da sessão: " + e.getMessage());
+        }
 
         return r;
     }
 
     public void inserirRegistro(Registro r) {
         String sql = "INSERT INTO registro (uso_cpu, uso_ram, disponivel_ram, uptime, fk_sessao) VALUES (?, ?, ?, ?, ?)";
-        conLocal.update(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam(), r.getUptime(), r.getFkSessao());
+
+        try {
+            conLocal.update(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam(), r.getUptime(), r.getFkSessao());
+        } catch (Exception e) {
+            LogsService.gerarLog("Falha ao inserir registro: " + e.getMessage());
+        }
     }
 }

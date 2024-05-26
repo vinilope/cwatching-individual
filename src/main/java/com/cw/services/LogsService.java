@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class LogsService {
-    private final Integer QTD_MAX_LINHAS = 10;
+    private static final Integer QTD_MAX_LINHAS = 10;
 
-    public void gerarLog(String mensagem) {
+    public static void gerarLog(String mensagem) {
 
         // TODO: verificar o tanto de linhas para a criação de novos arquivos
 
@@ -32,7 +32,7 @@ public class LogsService {
             LocalDateTime dtHora = LocalDateTime.now(ZoneId.of("UTC-3"));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:m:s");
 
-            log.write(mensagem + ' ' + dtHora.format(formatter) + "\n");
+            log.write(dtHora.format(formatter) + " " + mensagem);
             log.close();
 
             if (getQtdLinhas(file) >= QTD_MAX_LINHAS) {
@@ -46,7 +46,7 @@ public class LogsService {
         }
     }
 
-    public Integer getQtdLinhas(File file){
+    public static Integer getQtdLinhas(File file){
         Integer linhas = 0;
 
         try {

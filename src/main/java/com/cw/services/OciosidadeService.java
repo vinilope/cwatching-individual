@@ -3,6 +3,7 @@ package com.cw.services;
 import com.cw.dao.OciosidadeMouseDAO;
 import com.cw.models.RegistroOciosidadeMouse;
 import com.cw.models.Usuario;
+import com.mysql.cj.log.Log;
 
 import java.awt.*;
 
@@ -64,7 +65,8 @@ public class OciosidadeService {
                 }
 
                 run();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
     };
 

@@ -53,12 +53,12 @@ public class ProcessoService extends TimerTask {
         return p;
     }
 
-    private void finalizarProcesso(String NomeProcesso){
+    private void finalizarProcesso(String nome){
         try {
-            Runtime.getRuntime().exec("taskkill /F /IM " + NomeProcesso + ".exe" );
-            System.out.println("Processo finalizado: "+NomeProcesso);
+            Runtime.getRuntime().exec("taskkill /F /IM " + nome + ".exe" );
+            System.out.println("Processo finalizado: " + nome);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogsService.gerarLog("Falhou em finalizar um processo: " + e.getMessage());
         }
     }
 }

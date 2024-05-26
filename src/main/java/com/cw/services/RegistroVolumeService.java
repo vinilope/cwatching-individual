@@ -34,7 +34,9 @@ public class RegistroVolumeService extends TimerTask {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println();
+            //console Sout
+            LogsService.gerarLog("falhou ao inserir um registro de volume: " + e.getMessage());
         }
     }
 }

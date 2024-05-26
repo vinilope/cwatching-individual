@@ -1,6 +1,7 @@
 package com.cw.database;
 
 import com.cw.conexao.Conexao;
+import com.cw.services.LogsService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class CriarPopularTabelas extends Conexao {
@@ -299,7 +300,14 @@ public class CriarPopularTabelas extends Conexao {
         String[] comandos = sql.split(";");
 
         for (int i = 0; i < comandos.length; i++) {
-            conLocal.execute(comandos[i]);
+
+            try {
+                conLocal.execute(comandos[i]);
+
+            } catch (Exception e) {
+                LogsService.gerarLog("Falhou ao executar seguinte comando sql: " + i + "Exception: " + e.getMessage());
+            }
+
         }
     }
 }

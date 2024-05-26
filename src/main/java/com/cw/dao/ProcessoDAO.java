@@ -3,21 +3,37 @@ package com.cw.dao;
 import com.cw.conexao.Conexao;
 import com.cw.models.Processo;
 import com.cw.models.Registro;
+import com.cw.services.LogsService;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.beans.PropertyEditor;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessoDAO extends Conexao {
+    //TODO: remover formatted
 
     public void inserirProcesso(Processo p) {
         String sql = "INSERT INTO processo (nome, caminho, uso_ram, fk_registro) VALUES (?, ?, ?, ?)";
-        conLocal.update(sql, p.getNome(), p.getCaminho(), p.getUsoRam(), p.getFkRegistro());
+
+        try{
+            conLocal.update(sql, p.getNome(), p.getCaminho(), p.getUsoRam(), p.getFkRegistro());
+        } catch (Exception e) {
+            LogsService.gerarLog("Falha ao registrar processo: " + e.getMessage());
+        }
     }
 
     public List<Processo> buscarDezProcessosComMaisMemoria(Registro r) {
         String sql = "SELECT * FROM processo WHERE fk_registro = %d ORDER BY uso_ram DESC LIMIT 10".formatted(r.getIdRegistro());
 
-        return conLocal.query(sql, new BeanPropertyRowMapper<>(Processo.class));
+        List<Processo> p = new ArrayList<>();
+
+        try{
+            p = conLocal.query(sql, new BeanPropertyRowMapper<>(Processo.class));
+        } catch (Exception e) {
+            LogsService.gerarLog("Falha ao buscar 10 processos com mais memória: " + e.getMessage());
+        }
+        return p;
     }
 }

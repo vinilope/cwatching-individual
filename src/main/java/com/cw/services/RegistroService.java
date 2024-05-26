@@ -45,7 +45,8 @@ public class RegistroService extends TimerTask {
 
             if (alertaService.verificarAlerta(r)) registrarProcessos(r);
         } catch (Exception e) {
-            System.out.println("Não foi possivel inserir o registro: " + e);
+            System.out.println("Não foi possivel inserir o registro: " + e.getMessage());
+            LogsService.gerarLog("Falhou ao inserir um registro de componentes: " + e.getMessage());
         }
     }
 

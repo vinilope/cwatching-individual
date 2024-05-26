@@ -93,9 +93,10 @@ public class MaquinaService {
                         volume.getPontoDeMontagem(),
                         volume.getTotal(),
                         maquina.getIdMaquina()
-                ));
+));
             } catch (Exception e) {
-                System.out.println(e);
+                // console Sout
+                LogsService.gerarLog("falhou em registrar volume: " + e.getMessage());
             }
         }
     }

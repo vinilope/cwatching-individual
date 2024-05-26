@@ -25,9 +25,12 @@ public class SlackService {
 
             System.out.println(String.format("Status: %s", response.statusCode()));
             System.out.println(String.format("Response: %s", response.body()));
+            throw new InterruptedException();
+
 
         } catch (InterruptedException | IOException e) {
-            System.out.println("Erro ao enviar mensagem: " + e);
+            // Sout;
+            LogsService.gerarLog("Erro ao enviar mensagem para o Slack: " + e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package com.cw;
 
+import com.cw.conexao.Conexao;
 import com.cw.dao.*;
 import com.cw.database.CriarPopularTabelas;
 import com.cw.models.*;
@@ -37,14 +38,14 @@ public class MainCW {
         do {
             Scanner leitor = new Scanner(System.in);
 
-//            String username = "lucas@techsolutions.com";
-//            String senha = "lucas789";
+            String username = "lucas@techsolutions.com";
+            String senha = "lucas789";
 
             System.out.print("Usuário: ");
-            String username = leitor.next();
+//            String username = leitor.next();
 
             System.out.print("Senha: ");
-            String senha = leitor.next();
+//            String senha = leitor.next();
 
             // Autentica o login
             if (userDao.autenticarLogin(username, senha)) {
