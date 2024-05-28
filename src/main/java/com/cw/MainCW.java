@@ -1,12 +1,16 @@
 package com.cw;
 
 import com.cw.conexao.Conexao;
+import com.cw.conexao.Node;
 import com.cw.dao.*;
 import com.cw.database.CriarPopularTabelas;
 import com.cw.models.*;
 import com.cw.services.*;
 import com.github.britooo.looca.api.core.Looca;
+import com.google.gson.Gson;
 
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -31,21 +35,23 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-//           new CriarPopularTabelas().criarPopularTabelas();
-
         // Loop para interação com usuário (login)
         Boolean continuar;
         do {
             Scanner leitor = new Scanner(System.in);
 
-            String username = "lucas@techsolutions.com";
-            String senha = "lucas789";
-
-            System.out.print("Usuário: ");
+//            System.out.print("Usuário: ");
 //            String username = leitor.next();
-
-            System.out.print("Senha: ");
+//
+//            System.out.print("Senha: ");
 //            String senha = leitor.next();
+
+            Usuario user = Node.autenticar();
+
+            if (user == null) return;
+
+            String username = user.getUsername();
+            String senha = user.getSenha();
 
             // Autentica o login
             if (userDao.autenticarLogin(username, senha)) {

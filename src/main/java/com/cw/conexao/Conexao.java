@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class Conexao {
     public final JdbcTemplate conLocal;
     public final JdbcTemplate conNuvem;
+    public JdbcTemplate conexao;
 
     public Conexao() {
         this.conLocal = setConexaoLocal();
