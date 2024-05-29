@@ -16,8 +16,8 @@ public class MaquinaDAO extends Conexao {
     public void inserirMaquina(Maquina m, Empresa empresa) {
         try {
             if (!verificarMaquinaExistePorHostnameEEmpresa(m.getHostname(), empresa)) {
-                String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, fk_empresa) VALUES (?, ?, ?, ?, ?)";
-                conLocal.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getFkEmpresa());
+                String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, ip, fk_empresa) VALUES (?, ?, ?, ?, ?, ?)";
+                conLocal.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getIp(), m.getFkEmpresa());
             }
 
         }catch (Exception e){
@@ -29,9 +29,10 @@ public class MaquinaDAO extends Conexao {
         Boolean alterado = false;
         String sql = ("SELECT * FROM maquina WHERE " +
                 "hostname = '%s' AND " +
+                "ip = '%s' AND " +
                 "cpu_modelo = '%s' AND " +
                 "ram_total = %d AND" +
-                " so = '%s'").formatted(m.getHostname(), m.getCpu(), m.getRam(), m.getSo());
+                " so = '%s'").formatted(m.getHostname(), m.getIp(), m.getCpu(), m.getRam(), m.getSo());
         try{
 
             alterado = conLocal.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();

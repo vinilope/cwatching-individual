@@ -1,15 +1,22 @@
 package com.cw.conexao;
 
 import com.cw.models.Usuario;
+import com.cw.services.LoginService;
+import com.cw.services.OciosidadeService;
 import com.google.gson.Gson;
+import com.mysql.cj.log.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Scanner;
 
 public class Node {
-    public static final Integer PORTA = 37373;
+    public static final Integer PORTA = 12761;
 
     public static Usuario autenticar() {
         try (ServerSocket serverSocket = new ServerSocket(PORTA)) {
@@ -19,7 +26,6 @@ public class Node {
             Scanner data = new Scanner(socket.getInputStream());
             String json = (String) data.nextLine();
 
-            new Thread(logout).start();
             return new Gson().fromJson(json, Usuario.class);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -28,20 +34,31 @@ public class Node {
         return null;
     }
 
-    private static final Runnable logout = new Runnable() {
-        @Override
-        public void run() {
-            try (ServerSocket serverSocket = new ServerSocket(PORTA+1)) {
-                System.out.println("a");
+    public static void listenLogout() {
+
+        Runnable logoutListener = () -> {
+            try (ServerSocket serverSocket = new ServerSocket(PORTA)) {
                 Socket socket = serverSocket.accept();
-
                 new Scanner(socket.getInputStream());
-                System.exit(0);
-                //TODO: ao invés de sair do programa fazer com que volte a aguardar login
-
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+
+            LoginService.atualizarRegistro.cancel();
+            LoginService.monitorarProcesso.cancel();
+            LoginService.atualizarVolume.cancel();
+//            OciosidadeService.run = false;
+            LoginService.logar();
+        };
+
+        new Thread(logoutListener).start();
+    }
+
+    public static String getPublicIp() throws IOException {
+        String urlString = "http://checkip.amazonaws.com/";
+        URL url = new URL(urlString);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            return br.readLine();
         }
-    };
+    }
 }

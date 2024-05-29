@@ -8,35 +8,39 @@ import com.mysql.cj.log.Log;
 import java.awt.*;
 
 public class OciosidadeService {
-    private final Boolean DEBUG = false;
+    private static final Boolean DEBUG = false;
 
-    private Integer tempoDecrescenteMs;
-    private Integer tempoCrescenteMs;
+    private static Integer tempoDecrescenteMs;
+    private static Integer tempoCrescenteMs;
 
-    private Integer tempoDecrescente;
+    private static Integer tempoDecrescente;
 
-    private Integer sensibilidadeThreshold;
+    private static Integer sensibilidadeThreshold;
 
-    private Boolean timerDecrescenteRodando;
-    private Boolean mouseMoveu;
+    private static Boolean timerDecrescenteRodando;
+    private static Boolean mouseMoveu;
 
-    OciosidadeMouseDAO ociosidadeMouseDAO = new OciosidadeMouseDAO();
+    public static Boolean run;
 
-    private Usuario usuario;
+    static OciosidadeMouseDAO ociosidadeMouseDAO = new OciosidadeMouseDAO();
 
-    public OciosidadeService(Usuario usuario) {
-        this.timerDecrescenteRodando = false;
-        this.tempoCrescenteMs = 0;
-        this.usuario = usuario;
-    }
+    private static Usuario usuario;
 
-    public void iniciar() {
+    public static void iniciar(Usuario u, Integer t, Integer s) {
+        timerDecrescenteRodando = false;
+        tempoCrescenteMs = 0;
+        usuario = u;
+        tempoDecrescenteMs = t;
+        sensibilidadeThreshold = s;
+        run = true;
         new Thread(threadMouse).start();
     }
 
-    private Runnable threadMouse = new Runnable() {
+    private static Runnable threadMouse = new Runnable() {
         public void run() {
             try {
+                if (!run) Thread.currentThread().interrupt();
+
                 // Busca coordenadas do mouse em dois intervalos de tempo
                 Point coordAnterior = getCoordenadaMouse();
                 Thread.sleep(300);
@@ -70,9 +74,11 @@ public class OciosidadeService {
         }
     };
 
-    private Runnable threadTimerDecrescente = new Runnable() {
+    private static Runnable threadTimerDecrescente = new Runnable() {
         public void run() {
             try {
+                if (!run) Thread.currentThread().interrupt();
+
                 tempoDecrescente -= 100;
                 Thread.sleep(100);
                 if (DEBUG && tempoDecrescente % 1000 == 0) System.out.println("Falta para ocioso: " + tempoDecrescente);
@@ -89,9 +95,11 @@ public class OciosidadeService {
         }
     };
 
-    private Runnable threadTimerCrescente = new Runnable() {
+    private static Runnable threadTimerCrescente = new Runnable() {
         public void run() {
             try {
+                if (!run) Thread.currentThread().interrupt();
+
                 tempoCrescenteMs += 100;
                 Thread.sleep(100);
 
@@ -113,7 +121,7 @@ public class OciosidadeService {
         }
     };
 
-    public Point getCoordenadaMouse() {
+    public static Point getCoordenadaMouse() {
         return MouseInfo.getPointerInfo().getLocation();
     }
 

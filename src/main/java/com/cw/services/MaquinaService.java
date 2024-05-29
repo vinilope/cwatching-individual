@@ -1,5 +1,6 @@
 package com.cw.services;
 
+import com.cw.conexao.Node;
 import com.cw.dao.MaquinaDAO;
 import com.cw.dao.VolumeDAO;
 import com.cw.models.Empresa;
@@ -7,6 +8,7 @@ import com.cw.models.Maquina;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Volume;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,13 +25,12 @@ public class MaquinaService {
                 looca.getSistema().getSistemaOperacional(),
                 looca.getProcessador().getNome(),
                 looca.getMemoria().getTotal(),
-                looca.getRede().getParametros().getHostName(),
-                0
+                looca.getRede().getParametros().getHostName()
         );
     }
 
-    public void registrarMaquinaSeNaoExiste(Empresa e) {
-        Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), e);
+    public void registrarMaquinaSeNaoExiste(Empresa empresa) {
+        Boolean maquinaExiste = maquinaDAO.verificarMaquinaExistePorHostnameEEmpresa(maquinaAtual.getHostname(), empresa);
         Boolean componentesAlterados = maquinaDAO.componentesAlterou(maquinaAtual);
 
         System.out.println("\nVerificado cadastro da máquina...");
@@ -37,19 +38,26 @@ public class MaquinaService {
         if (!maquinaExiste) {
             System.out.println("\nMáquina não encontrada. Cadastrando máquina...");
 
-            this.maquinaAtual.setFkEmpresa(e.getIdEmpresa());
-            maquinaDAO.inserirMaquina(maquinaAtual, e);
-            registrarGrupoVolumePorMaquina(e);
+            this.maquinaAtual.setFkEmpresa(empresa.getIdEmpresa());
+
+            try {
+                this.maquinaAtual.setIp(Node.getPublicIp());
+            } catch (IOException e) {
+                System.out.println("Falha ao obter IP Público: " + e.getMessage());
+            }
+
+            maquinaDAO.inserirMaquina(maquinaAtual, empresa);
+            registrarGrupoVolumePorMaquina(empresa);
         } else {
             System.out.println("\nMáquina encontrada.");
         }
 
         if (componentesAlterados && maquinaExiste) {
             System.out.println("\nDetectada alteração nos componentes. Atualizando dados...");
-            maquinaDAO.atualizarMaquina(maquinaAtual, e);
+            maquinaDAO.atualizarMaquina(maquinaAtual, empresa);
         }
 
-        atualizarGrupoVolumeExistente(e);
+        atualizarGrupoVolumeExistente(empresa);
     }
 
     private void atualizarGrupoVolumeExistente(Empresa e) {

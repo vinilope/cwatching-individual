@@ -6,17 +6,18 @@ public class Maquina {
     private String cpu;
     private Long ram;
     private String hostname;
+    private String ip;
     private Integer fkEmpresa;
 
-    public Maquina(String so, String cpu, Long ram, String hostname, Integer fkEmpresa) {
+    public Maquina(String so, String cpu, Long ram, String hostname) {
         this.so = so;
         this.cpu = cpu;
         this.ram = ram;
         this.hostname = hostname;
-        this.fkEmpresa = fkEmpresa;
     }
 
-    public Maquina() {}
+    public Maquina() {
+    }
 
     public Integer getIdMaquina() {
         return idMaquina;
@@ -58,6 +59,14 @@ public class Maquina {
         this.hostname = hostname;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
     public Integer getFkEmpresa() {
         return fkEmpresa;
     }
@@ -68,11 +77,14 @@ public class Maquina {
 
     @Override
     public String toString() {
-        return """
-                Hostname: %s
-                Sistema Operacional: %s
-                Processador: %s
-                RAM: %d B
-                """.formatted(hostname, so, cpu, ram);
+        return "Maquina{" +
+                "idMaquina=" + idMaquina +
+                ", so='" + so + '\'' +
+                ", cpu='" + cpu + '\'' +
+                ", ram=" + ram +
+                ", hostname='" + hostname + '\'' +
+                ", ip='" + ip + '\'' +
+                ", fkEmpresa=" + fkEmpresa +
+                '}';
     }
 }
