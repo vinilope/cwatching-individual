@@ -35,7 +35,7 @@ public class PermProcessoDAO extends Conexao {
         String sql = "INSERT INTO perm_processo (nome, fk_config) values (?, ?)";
         try{
             System.out.println("Adicionado: " + p);
-            conLocal.update(sql, p, c.getIdConfig());
+            insert(sql, p, c.getIdConfig());
 
         }catch (Exception e){
             LogsService.gerarLog("Falha ao inserir processo: " + e.getMessage());

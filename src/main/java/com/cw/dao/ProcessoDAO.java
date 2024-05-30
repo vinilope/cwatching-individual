@@ -18,7 +18,7 @@ public class ProcessoDAO extends Conexao {
         String sql = "INSERT INTO processo (nome, caminho, uso_ram, fk_registro) VALUES (?, ?, ?, ?)";
 
         try{
-            conLocal.update(sql, p.getNome(), p.getCaminho(), p.getUsoRam(), p.getFkRegistro());
+            insert(sql, p.getNome(), p.getCaminho(), p.getUsoRam(), p.getFkRegistro());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao registrar processo: " + e.getMessage());
         }

@@ -16,7 +16,7 @@ public class RegistroVolumeDAO extends Conexao {
         String sql = "INSERT INTO registro_volume (volume_disponivel, fk_sessao, fk_volume) VALUES (?, ?, ?)";
 
         try {
-            conLocal.update(sql, r.getVolumeDisponivel(), r.getFkSessao(), r.getFkVolume());
+            insert(sql, r.getVolumeDisponivel(), r.getFkSessao(), r.getFkVolume());
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao inserir registro de volume: " + e.getMessage());
         }

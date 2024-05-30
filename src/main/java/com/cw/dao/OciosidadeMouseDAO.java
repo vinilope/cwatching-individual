@@ -22,20 +22,16 @@ public class OciosidadeMouseDAO extends Conexao {
 
     public Integer inserirOciosidadeMouse(RegistroOciosidadeMouse r) {
         String sql = "INSERT INTO tempo_ociosidade (fk_usuario) VALUES (?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        Integer key = null;
 
         try {
-            conLocal.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, r.getFkUsuario());
-                return ps;
-            }, keyHolder);
+            key = keyInsert(sql, r.getFkUsuario());
 
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao registrar ociosidade: " + e.getMessage());
         }
 
-        return keyHolder.getKey().intValue();
+        return key;
     }
 
     public void updateOciosidadeMouse(RegistroOciosidadeMouse r) {

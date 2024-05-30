@@ -17,7 +17,7 @@ public class MaquinaDAO extends Conexao {
         try {
             if (!verificarMaquinaExistePorHostnameEEmpresa(m.getHostname(), empresa)) {
                 String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, ip, fk_empresa) VALUES (?, ?, ?, ?, ?, ?)";
-                conLocal.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getIp(), m.getFkEmpresa());
+                insert(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getIp(), m.getFkEmpresa());
             }
 
         }catch (Exception e){
@@ -46,7 +46,7 @@ public class MaquinaDAO extends Conexao {
     public void atualizarMaquina(Maquina m, Empresa empresa) {
         String sql = ("UPDATE maquina SET so = ?, cpu_modelo = ?, ram_total = ?, modificado_em = now() WHERE hostname = ? AND fk_empresa = ?");
         try {
-            conLocal.update(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), empresa.getIdEmpresa());
+            insert(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), empresa.getIdEmpresa());
 
         }catch (Exception e){
             LogsService.gerarLog("Falha ao atualizar máquina: " + e.getMessage());

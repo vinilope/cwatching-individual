@@ -12,8 +12,6 @@ public class LogsService {
 
 //    public static void gerarLog(String mensagem) {
 //
-//        // TODO: verificar o tanto de linhas para a criação de novos arquivos
-//
 //        try {
 //            mensagem += "\n";
 //            String path = "/cwatching/logs";

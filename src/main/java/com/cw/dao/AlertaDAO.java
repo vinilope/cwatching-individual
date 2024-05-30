@@ -14,7 +14,7 @@ public class AlertaDAO extends Conexao {
         System.out.println("Inserindo alerta...\n");
         String sql = "INSERT INTO alerta(tipo, descricao, fk_registro, fk_reg_volume) values (?, ?, ?, ?)";
         try{
-            conLocal.update(sql, l.getTipo(), l.getDescricao(), l.getFkRegistro(), l.getFkRegVolume());
+            insert(sql, l.getTipo(), l.getDescricao(), l.getFkRegistro(), l.getFkRegVolume());
         }catch (Exception e){
             LogsService.gerarLog("Falha ao inserir alerta: "+ e.getMessage());
         }

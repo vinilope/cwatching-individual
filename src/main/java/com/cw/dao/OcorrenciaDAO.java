@@ -14,7 +14,7 @@ public class OcorrenciaDAO extends Conexao {
         String sql = "INSERT INTO ocorrencia (titulo, descricao, tipo, fk_sessao) VALUES (?, ?, ?, ?)";
 
         try {
-            conLocal.update(sql, o.getTitulo(), o.getDescricao(), o.getTipo(), o.getFkSessao());
+            insert(sql, o.getTitulo(), o.getDescricao(), o.getTipo(), o.getFkSessao());
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao inserir ocorrencia: " + e.getMessage());
         }

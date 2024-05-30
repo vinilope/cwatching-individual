@@ -31,7 +31,7 @@ public class RegistroDAO extends Conexao {
         String sql = "INSERT INTO registro (uso_cpu, uso_ram, disponivel_ram, uptime, fk_sessao) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            conLocal.update(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam(), r.getUptime(), r.getFkSessao());
+            insert(sql, r.getUsoCpu(), r.getUsoRam(), r.getDisponivelRam(), r.getUptime(), r.getFkSessao());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao inserir registro: " + e.getMessage());
         }

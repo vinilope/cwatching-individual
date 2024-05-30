@@ -22,7 +22,7 @@ public class VolumeDAO extends Conexao {
         String sql = "INSERT INTO volume (uuid, nome, ponto_montagem, volume_total, fk_maquina) VALUES (?, ?, ?, ?, ?)";
 
         try{
-            conLocal.update(sql, v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getVolumeTotal(), v.getFkMaquina());
+            insert(sql, v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getVolumeTotal(), v.getFkMaquina());
         }catch (Exception e) {
             LogsService.gerarLog("Falha ao inserir volume: " + e.getMessage());
         }
@@ -34,7 +34,7 @@ public class VolumeDAO extends Conexao {
         String sql= ("UPDATE volume SET nome = ?, ponto_montagem = ?, volume_total = ? WHERE uuid = ? ");
 
         try {
-            conLocal.update(sql, v.getNome(), v.getPontoMontagem(), v.getVolumeTotal(), v.getUUID());
+            insert(sql, v.getNome(), v.getPontoMontagem(), v.getVolumeTotal(), v.getUUID());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao atualizar volume: " + e.getMessage());
         }

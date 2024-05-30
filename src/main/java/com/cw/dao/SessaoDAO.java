@@ -19,7 +19,7 @@ public class SessaoDAO extends Conexao {
         String sql = "INSERT INTO sessao (fk_maquina, fk_usuario) VALUES (?, ?)";
 
         try {
-            conLocal.update(sql, fkMaquina, fkUsuario);
+            insert(sql, fkMaquina, fkUsuario);
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao registrar sessão: " + e.getMessage());
         }
