@@ -15,7 +15,9 @@ public class LoginService {
     public static Timer atualizarRegistro;
     public static Timer atualizarVolume;
     public static Timer monitorarProcesso;
+    public static Timer monitorarOciosidade;
 
+    public static OciosidadeService ociosidadeService;
     static String hostname = new Looca().getRede().getParametros().getHostName();
     static UsuarioDAO userDao = new UsuarioDAO();
     static MaquinaDAO maquinaDAO = new MaquinaDAO();
@@ -64,6 +66,7 @@ public class LoginService {
         atualizarRegistro = new Timer();
         atualizarVolume = new Timer();
         monitorarProcesso = new Timer();
+        monitorarOciosidade = new Timer();
 
         atualizarRegistro.schedule(new RegistroService(sessaoAtual, alerta), 0, configAtual.getIntervaloRegistroMs());
 
@@ -71,9 +74,10 @@ public class LoginService {
         atualizarVolume.schedule(new RegistroVolumeService(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
 
         // Inicializa timer para monitoramento de processos
-        monitorarProcesso.schedule(new ProcessoService(configAtual), 0, 500);
+        monitorarProcesso.schedule(new ProcessoService(configAtual), 0, 300);
 
         // Inicializa o monitoramento de ociosidade de mouse do usuário
-        OciosidadeService.iniciar(usuario, configAtual.getTimerMouseMs(), configAtual.getSensibilidadeMouse());
+        ociosidadeService = new OciosidadeService(usuario, configAtual.getTimerMouseMs(), configAtual.getSensibilidadeMouse());
+        monitorarOciosidade.schedule(ociosidadeService, 0, 500);
     }
 }

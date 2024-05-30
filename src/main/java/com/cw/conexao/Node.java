@@ -47,7 +47,8 @@ public class Node {
             LoginService.atualizarRegistro.cancel();
             LoginService.monitorarProcesso.cancel();
             LoginService.atualizarVolume.cancel();
-//            OciosidadeService.run = false;
+            LoginService.monitorarOciosidade.cancel();
+            LoginService.ociosidadeService.isRunning = false;
             LoginService.logar();
         };
 

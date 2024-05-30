@@ -6,7 +6,11 @@ import com.cw.models.Usuario;
 import com.cw.services.LogsService;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 public class OciosidadeMouseDAO extends Conexao {
@@ -16,15 +20,32 @@ public class OciosidadeMouseDAO extends Conexao {
 
     }
 
-    public void inserirOciosidadeMouse(RegistroOciosidadeMouse registro) {
-        String sql = "INSERT INTO tempo_ociosidade (tempo_registro_ms, fk_usuario) VALUES (?, ?)";
+    public Integer inserirOciosidadeMouse(RegistroOciosidadeMouse r) {
+        String sql = "INSERT INTO tempo_ociosidade (fk_usuario) VALUES (?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         try {
-            conLocal.update(sql, registro.getTempoRegistroMs(), registro.getFkUsuario());
+            conLocal.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, r.getFkUsuario());
+                return ps;
+            }, keyHolder);
+
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao registrar ociosidade: " + e.getMessage());
         }
 
+        return keyHolder.getKey().intValue();
+    }
+
+    public void updateOciosidadeMouse(RegistroOciosidadeMouse r) {
+        String sql = "UPDATE tempo_ociosidade SET tempo_registro_ms = ? WHERE id_tempo_ociosidade = ?";
+        try {
+            conLocal.update(sql, r.getTempoRegistroMs(), r.getIdTempoOciosidade());
+            System.out.println("atualizado");
+        } catch (Exception e) {
+            LogsService.gerarLog("Falha ao registrar ociosidade: " + e.getMessage());
+        }
     }
 
     public RegistroOciosidadeMouse buscarUltimoRegistroOciosidadePorUsuario (Usuario u) {
