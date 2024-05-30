@@ -16,7 +16,7 @@ public class LogsService {
 //
 //        try {
 //            mensagem += "\n";
-//            String path = ".\\logs\\";
+//            String path = "/cwatching/logs";
 //            File diretorio = new File(path);
 //
 //            System.out.println(Arrays.toString(diretorio.list()));
