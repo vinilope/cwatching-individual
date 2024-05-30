@@ -1,52 +1,58 @@
 package com.cw.services;
 
+import com.github.britooo.looca.api.core.Looca;
+
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.List;
 
 public class LogsService {
-    private static final Integer QTD_MAX_LINHAS = 10;
-
-//    public static void gerarLog(String mensagem) {
-//
-//        try {
-//            mensagem += "\n";
-//            String path = "/cwatching/logs";
-//            File diretorio = new File(path);
-//
-//            System.out.println(Arrays.toString(diretorio.list()));
-//            System.out.println("length: " + Objects.requireNonNull(diretorio.list()).length);
-//
-//            Integer index = Objects.requireNonNull(diretorio.list()).length;
-//            String nameFileAtual = "log_history_%d.txt".formatted(index == 0 ? index + 1 : index);
-//            String nameFileNovo = "log_history_%d.txt".formatted(index == 0 ? index + 2 : index + 1);
-//
-//            File file = new File(path + nameFileAtual);
-//
-//            FileWriter log = new FileWriter(file, true);
-//
-//            LocalDateTime dtHora = LocalDateTime.now(ZoneId.of("UTC-3"));
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:m:s");
-//
-//            log.write(dtHora.format(formatter) + " " + mensagem);
-//            log.close();
-//
-//            if (getQtdLinhas(file) >= QTD_MAX_LINHAS) {
-//                file = new File(path + nameFileNovo);
-//                file.createNewFile();
-//            }
-//
-//        } catch(IOException e) {
-//            System.out.println("Erro ao criar log");
-//            e.printStackTrace();
-//        }
-//    }
+    private static final Integer QTD_MAX_LINHAS = 3;
 
     public static void gerarLog(String mensagem) {
-        System.out.println(mensagem);
+        Path path = Paths.get("/cwatching/log");
+        File dir = new File(String.valueOf(path));
+
+        mensagem += "\n";
+
+        try {
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            } else {
+                System.out.println("length: " + Objects.requireNonNull(dir.list()).length);
+                LocalDateTime dtHora = LocalDateTime.now(ZoneId.of("UTC-3"));
+
+                DateTimeFormatter f = DateTimeFormatter.ofPattern("yMdHHmsn");
+
+                Integer index = Objects.requireNonNull(dir.list()).length;
+                String nameFileAtual = dir.list().length == 0 ? "/%s_%s.txt".formatted(new Looca().getRede().getParametros().getHostName(), dtHora.format(f)) : getUltimoArquivo(dir);
+                String nameFileNovo = "/%s_%s.txt".formatted(new Looca().getRede().getParametros().getHostName(), dtHora.format(f));
+
+                File file = new File(path + nameFileAtual);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:m:s:n");
+
+                FileWriter log = new FileWriter(file, true);
+                log.write(dtHora.format(formatter) + " " + mensagem);
+                log.close();
+
+                System.out.println(getQtdLinhas(file));
+
+                if (getQtdLinhas(file) >= QTD_MAX_LINHAS) {
+                    file = new File(path + nameFileNovo);
+                    file.createNewFile();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Integer getQtdLinhas(File file){
@@ -61,5 +67,13 @@ public class LogsService {
         }
 
         return linhas;
+    }
+
+    public static String getUltimoArquivo(File dir) {
+        List<String> fileNames = List.of(dir.list());
+
+        fileNames.stream().sorted();
+
+        return fileNames.get(fileNames.size()-1);
     }
 }
