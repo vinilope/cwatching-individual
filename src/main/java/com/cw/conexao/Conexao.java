@@ -5,6 +5,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -17,30 +18,26 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Conexao {
-    public final JdbcTemplate conLocal;
-    public final JdbcTemplate conNuvem;
+    public static final JdbcTemplate conLocal = setConexaoLocal();
+    public static final JdbcTemplate conNuvem = setConexaoNuvem();
     public JdbcTemplate conexao;
 
     public Conexao() {
-        this.conLocal = setConexaoLocal();
-        this.conNuvem = setConexaoNuvem();
 
-        testarConexao(conLocal);
-//        testarConexao(conNuvem);
     }
 
-    private JdbcTemplate setConexaoLocal() {
+    private static JdbcTemplate setConexaoLocal() {
 
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://localhost:3306/cwdb");
             dataSource.setUsername("root");
-            dataSource.setPassword("");
+            dataSource.setPassword("root");
 
             return new JdbcTemplate(dataSource);
     }
 
-    private JdbcTemplate setConexaoNuvem() {
+    private static JdbcTemplate setConexaoNuvem() {
 
          BasicDataSource dataSource = new BasicDataSource();
          dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -55,23 +52,22 @@ public class Conexao {
         try {
             con.queryForObject("SELECT 1", Integer.class);
         } catch (Exception e) {
-            LogsService.gerarLog("Falha ao estabelecer conexão com o MYsql: " + e);
+            LogsService.gerarLog("Falha ao estabelecer conexão com o MySQL: " + e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
         }
     }
 
-//    public void insert(String sql, Integer opt, Object ... args) {
-//        JdbcTemplate con = opt == 0 ? conLocal : conNuvem;
-//
-//        con.update(sql, args);
-//    }
+    public static void testarConexoes() {
+        testarConexao(conLocal);
+//        testarConexao(conNuvem);
+    }
 
     public void insert(String sql, Object ... args) {
         insertFuture(sql, conLocal, args);
 //        insertFuture(sql, conNuvem, args);
     }
 
-    public Integer keyInsert(String sql, Integer id) {
-        return keyInsertFuture(sql, conLocal, id);
+    public Integer keyInsert(String sql, Object ... args) {
+        return keyInsertFuture(sql, conLocal, args);
     }
 
     public void insertFuture(String sql, JdbcTemplate con, Object ... args) {
@@ -80,7 +76,7 @@ public class Conexao {
         });
     }
 
-    public Integer keyInsertFuture(String sql, JdbcTemplate con, Integer id) {
+    public Integer keyInsertFuture(String sql, JdbcTemplate con, Object ... args) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         Integer key = null;
 
@@ -88,7 +84,9 @@ public class Conexao {
             try {
                 con.update(connection -> {
                     PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    ps.setInt(1, id);
+                    for (int i = 0; i < args.length; i++) {
+                        ps.setObject(i + 1, args[i]);
+                    }
                     return ps;
                 }, keyHolder);
             } catch (Exception e) {
@@ -100,7 +98,7 @@ public class Conexao {
 
         try {
             key = future.get();
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             LogsService.gerarLog("Erro ao inserir: " + e.getMessage());
         }
 

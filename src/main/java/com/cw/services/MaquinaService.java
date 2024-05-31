@@ -9,6 +9,7 @@ import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Volume;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,8 +47,7 @@ public class MaquinaService {
                 System.out.println("Falha ao obter IP Público: " + e.getMessage());
             }
 
-            maquinaDAO.inserirMaquina(maquinaAtual, empresa);
-            registrarGrupoVolumePorMaquina(empresa);
+            registrarGrupoVolumePorMaquina(maquinaDAO.inserirMaquina(maquinaAtual, empresa));
         } else {
             System.out.println("\nMáquina encontrada.");
         }
@@ -89,8 +89,7 @@ public class MaquinaService {
         }
     }
 
-    public void registrarGrupoVolumePorMaquina(Empresa empresa) {
-        Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(looca.getRede().getParametros().getHostName(), empresa);
+    public void registrarGrupoVolumePorMaquina(Integer idMaquina) {
         List<Volume> volumes = looca.getGrupoDeDiscos().getVolumes();
 
         for (Volume volume : volumes) {
@@ -100,11 +99,10 @@ public class MaquinaService {
                         volume.getNome(),
                         volume.getPontoDeMontagem(),
                         volume.getTotal(),
-                        maquina.getIdMaquina()
+                        idMaquina
 ));
             } catch (Exception e) {
-                // console Sout
-                LogsService.gerarLog("falhou em registrar volume: " + e.getMessage());
+                LogsService.gerarLog("Falha ao registrar volume: " + e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
     }

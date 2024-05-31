@@ -27,8 +27,6 @@ public class VolumeDAO extends Conexao {
             LogsService.gerarLog("Falha ao inserir volume: " + e.getMessage());
         }
 
-
-
     }
     public void atualizarVolume(Volume v){
         String sql= ("UPDATE volume SET nome = ?, ponto_montagem = ?, volume_total = ? WHERE uuid = ? ");

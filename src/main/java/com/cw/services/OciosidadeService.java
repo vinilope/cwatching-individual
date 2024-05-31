@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class OciosidadeService extends TimerTask {
-    private final Boolean DEBUG = true;
+    private final Boolean DEBUG = true  ;
 
     private Integer tempoDecrescenteMs;
     private Integer tempoCrescenteMs;
@@ -34,7 +34,7 @@ public class OciosidadeService extends TimerTask {
         isRunning = true;
         tempoCrescenteMs = 0;
         usuario = u;
-        tempoDecrescenteMs = 5000;
+        tempoDecrescenteMs = t;
         sensibilidadeThreshold = s;
         monitorarMouse = new Timer();
         monitorarMouse.schedule(monitorarMouseTask, 0 , 100);

@@ -7,6 +7,8 @@ public class MainCW {
 
     public static void main(String[] args) {
 
+        Conexao.testarConexoes();
+
         System.out.println("""                                                                      
                    ______           __           _       __      __       __ \s
                   / ____/__  ____  / /____  ____| |     / /___ _/ /______/ /_\s

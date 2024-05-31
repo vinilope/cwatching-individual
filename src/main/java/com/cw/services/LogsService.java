@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.List;
 
 public class LogsService {
-    private static final Integer QTD_MAX_LINHAS = 3;
+    private static final Integer QTD_MAX_LINHAS = 15;
 
     public static void gerarLog(String mensagem) {
         Path path = Paths.get("/cwatching/logs");
@@ -26,24 +26,21 @@ public class LogsService {
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             } else {
-                System.out.println("length: " + Objects.requireNonNull(dir.list()).length);
-                LocalDateTime dtHora = LocalDateTime.now(ZoneId.of("UTC-3"));
+                Integer qtdArquivos = dir.list().length == 0 ? qtdArquivos = 1 : dir.list().length;
 
-                DateTimeFormatter f = DateTimeFormatter.ofPattern("yMdHHmsn");
-
-                Integer index = Objects.requireNonNull(dir.list()).length;
-                String nameFileAtual = dir.list().length == 0 ? "/%s_%s.txt".formatted(new Looca().getRede().getParametros().getHostName(), dtHora.format(f)) : getUltimoArquivo(dir);
-                String nameFileNovo = "/%s_%s.txt".formatted(new Looca().getRede().getParametros().getHostName(), dtHora.format(f));
+                String nameFileAtual = "/%s_log_%s.log".formatted(new Looca().getRede().getParametros().getHostName(), String.format("%07d", qtdArquivos));
+                String nameFileNovo = "/%s_log_%s.log".formatted(new Looca().getRede().getParametros().getHostName(), String.format("%07d", qtdArquivos+1));
 
                 File file = new File(path + nameFileAtual);
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:m:s:n");
 
                 FileWriter log = new FileWriter(file, true);
-                log.write(dtHora.format(formatter) + " " + mensagem);
-                log.close();
 
-                System.out.println(getQtdLinhas(file));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                LocalDateTime dtHora = LocalDateTime.now(ZoneId.of("UTC-3"));
+                log.write(dtHora.format(formatter) + " " + mensagem);
+
+                log.close();
 
                 if (getQtdLinhas(file) >= QTD_MAX_LINHAS) {
                     file = new File(path + nameFileNovo);
@@ -67,13 +64,5 @@ public class LogsService {
         }
 
         return linhas;
-    }
-
-    public static String getUltimoArquivo(File dir) {
-        List<String> fileNames = List.of(dir.list());
-
-        fileNames.stream().sorted();
-
-        return fileNames.get(fileNames.size()-1);
     }
 }

@@ -13,16 +13,18 @@ public class MaquinaDAO extends Conexao {
     public MaquinaDAO() {
     }
 
-    public void inserirMaquina(Maquina m, Empresa empresa) {
+    public Integer inserirMaquina(Maquina m, Empresa empresa) {
         try {
             if (!verificarMaquinaExistePorHostnameEEmpresa(m.getHostname(), empresa)) {
                 String sql = "INSERT INTO maquina (so, cpu_modelo, ram_total, hostname, ip, fk_empresa) VALUES (?, ?, ?, ?, ?, ?)";
-                insert(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getIp(), m.getFkEmpresa());
+                return keyInsert(sql, m.getSo(), m.getCpu(), m.getRam(), m.getHostname(), m.getIp(), m.getFkEmpresa());
             }
 
         }catch (Exception e){
             LogsService.gerarLog("Falha ao inserir maquina: " + e.getMessage());
         }
+
+        return null;
     }
 
     public Boolean componentesAlterou(Maquina m) {
