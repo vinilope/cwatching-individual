@@ -17,7 +17,7 @@ public class LogsService {
     private static final Integer QTD_MAX_LINHAS = 3;
 
     public static void gerarLog(String mensagem) {
-        Path path = Paths.get("/cwatching/log");
+        Path path = Paths.get("/cwatching/logs");
         File dir = new File(String.valueOf(path));
 
         mensagem += "\n";
