@@ -30,8 +30,6 @@ public class LoginService {
 
         if (user == null) return;
 
-        Node.listenLogout();
-
         String username = user.getUsername();
         String senha = user.getSenha();
 
@@ -55,8 +53,10 @@ public class LoginService {
         Maquina maquina = maquinaDAO.buscarMaquinaPorHostnameEEmpresa(hostname, empresa);
 
         // Registra a sessão criada ao logar
-        sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
-        Sessao sessaoAtual = sessaoDAO.buscarUltimaSessaoPorMaquina(maquina.getIdMaquina());
+        Integer idSessao = sessaoDAO.registrarSessao(maquina.getIdMaquina(), usuario.getIdUsuario());
+        Sessao sessaoAtual = sessaoDAO.buscarSessao(idSessao);
+
+        Node.listenLogout(sessaoAtual.getIdSessao());
 
         AlertaService alerta = new AlertaService(configAtual);
 

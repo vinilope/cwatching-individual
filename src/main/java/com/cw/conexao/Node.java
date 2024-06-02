@@ -1,5 +1,6 @@
 package com.cw.conexao;
 
+import com.cw.dao.SessaoDAO;
 import com.cw.models.Usuario;
 import com.cw.services.LoginService;
 import com.cw.services.OciosidadeService;
@@ -34,7 +35,7 @@ public class Node {
         return null;
     }
 
-    public static void listenLogout() {
+    public static void listenLogout(Integer idSessao) {
 
         Runnable logoutListener = () -> {
             try (ServerSocket serverSocket = new ServerSocket(PORTA)) {
@@ -44,6 +45,7 @@ public class Node {
                 System.out.println(e.getMessage());
             }
 
+            new SessaoDAO().updateFimSessao(idSessao);
             LoginService.atualizarRegistro.cancel();
             LoginService.monitorarProcesso.cancel();
             LoginService.atualizarVolume.cancel();

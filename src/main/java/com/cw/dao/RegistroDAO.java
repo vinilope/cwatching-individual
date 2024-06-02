@@ -9,17 +9,16 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class RegistroDAO extends Conexao {
-    //TODO: remover formatted
 
     public RegistroDAO() {
     }
 
     public Registro buscarUltimoRegistroPorSessao(Sessao s) {
         Registro r = new Registro();
-        String sql = "SELECT * FROM registro WHERE fk_sessao = %d ORDER BY dt_hora DESC LIMIT 1".formatted(s.getIdSessao());
+        String sql = "SELECT * FROM registro WHERE fk_sessao = ? ORDER BY dt_hora DESC LIMIT 1";
 
         try {
-            r = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class));
+            r = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class), s.getIdSessao());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao buscar último registro da sessão: " + e.getMessage());
         }

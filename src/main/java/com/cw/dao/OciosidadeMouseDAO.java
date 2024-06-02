@@ -37,22 +37,9 @@ public class OciosidadeMouseDAO extends Conexao {
     public void updateOciosidadeMouse(RegistroOciosidadeMouse r) {
         String sql = "UPDATE tempo_ociosidade SET tempo_registro_ms = ? WHERE id_tempo_ociosidade = ?";
         try {
-            conLocal.update(sql, r.getTempoRegistroMs(), r.getIdTempoOciosidade());
-            System.out.println("atualizado");
+            insert(sql, r.getTempoRegistroMs(), r.getIdTempoOciosidade());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao registrar ociosidade: " + e.getMessage());
         }
-    }
-
-    public RegistroOciosidadeMouse buscarUltimoRegistroOciosidadePorUsuario (Usuario u) {
-        RegistroOciosidadeMouse r = new RegistroOciosidadeMouse();
-        try {
-            String sql = "SELECT * FROM tempo_ociosidade WHERE fk_usuario = %d ORDER BY dt_hora_registro DESC LIMIT 1".formatted(u.getIdUsuario());
-            RegistroOciosidadeMouse registros = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(RegistroOciosidadeMouse.class));
-            r = registros;
-        } catch (Exception e){
-            LogsService.gerarLog("Falha ao buscar ultima ociosidade: " + e.getMessage());
-        }
-        return r;
     }
 }
