@@ -23,7 +23,7 @@ public class UsuarioDAO extends Conexao {
         Usuario usuario;
 
         try {
-            usuario = conLocal.queryForObject("SELECT * FROM usuario WHERE username = '%s'".formatted(username), new BeanPropertyRowMapper<>(Usuario.class));
+            usuario = conNuvem.queryForObject("SELECT * FROM usuario WHERE username = '%s'".formatted(username), new BeanPropertyRowMapper<>(Usuario.class));
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao buscar usuário por username: " + e.getMessage());
             return null;
@@ -37,7 +37,7 @@ public class UsuarioDAO extends Conexao {
         List<Usuario> usuario = new ArrayList<>();
 
         try {
-            usuario = conLocal.query("SELECT * FROM usuario WHERE username = '%s' AND senha = BINARY '%s'".formatted(username, senha), new BeanPropertyRowMapper<>(Usuario.class));
+            usuario = conNuvem.query("SELECT * FROM usuario WHERE username = '%s' AND senha = '%s'".formatted(username, senha), new BeanPropertyRowMapper<>(Usuario.class));
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao autenticar login: " + e.getMessage());
         }
@@ -51,7 +51,7 @@ public class UsuarioDAO extends Conexao {
         Empresa empresa;
 
         try {
-            empresa = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
+            empresa = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Empresa.class));
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao buscar empresa por username: " + e.getMessage());
             return null;
@@ -66,7 +66,7 @@ public class UsuarioDAO extends Conexao {
         Funcionario f;
 
         try {
-            f = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Funcionario.class));
+            f = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Funcionario.class));
         } catch(Exception e) {
             LogsService.gerarLog("Falha ao buscar funcionario por username: " + e.getMessage());
             return null;

@@ -23,7 +23,7 @@ public class PermProcessoDAO extends Conexao {
         try {
             String sql = "SELECT * FROM perm_processo WHERE fk_config = %d".formatted(c.getIdConfig());
 
-            p = conLocal.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
+            p = conNuvem.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
         } catch (Exception e){
             LogsService.gerarLog("Falha ao buscar processos" + e.getMessage());
         }
@@ -46,7 +46,7 @@ public class PermProcessoDAO extends Conexao {
         Boolean b =false;
         try {
             String sql = "SELECT permitido FROM perm_processo WHERE nome = '%s' AND fk_config = %d AND permitido IS NOT null".formatted(nome, c.getIdConfig());
-            List<PermProcesso> permProcesso = conLocal.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
+            List<PermProcesso> permProcesso = conNuvem.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
             if (permProcesso.isEmpty()) return null;
             b = permProcesso.get(0).getPermitido();
 

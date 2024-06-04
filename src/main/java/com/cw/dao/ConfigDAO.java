@@ -20,7 +20,7 @@ public class ConfigDAO extends Conexao {
 
         try {
             String sql = "SELECT * FROM config WHERE id_config = %d".formatted(empresa.getIdEmpresa());
-            c = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Config.class));
+            c = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Config.class));
         } catch (Exception e){
             LogsService.gerarLog("Falha ao buscar configuração: " + e.getMessage());
         }
@@ -33,7 +33,7 @@ public class ConfigDAO extends Conexao {
         List<PermProcesso> p = new ArrayList<>();
 
         try {
-            p = conLocal.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
+            p = conNuvem.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
         } catch (Exception e){
             LogsService.gerarLog("Falha ao buscar configuração de processo: " + e.getMessage());
         }

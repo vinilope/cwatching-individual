@@ -37,7 +37,7 @@ public class MaquinaDAO extends Conexao {
                 " so = '%s'").formatted(m.getHostname(), m.getIp(), m.getCpu(), m.getRam(), m.getSo());
         try{
 
-            alterado = conLocal.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
+            alterado = conNuvem.query(sql, new BeanPropertyRowMapper<>(Maquina.class)).isEmpty();
         }catch (Exception e){
             LogsService.gerarLog("Falha ao verificar mudanças de componentes: "+ e.getMessage());
         }
@@ -61,7 +61,7 @@ public class MaquinaDAO extends Conexao {
         Boolean existe = false;
 
         try {
-            existe = !conLocal.query(sql, new BeanPropertyRowMapper<>(Maquina.class), hostname, empresa.getIdEmpresa()).isEmpty();
+            existe = !conNuvem.query(sql, new BeanPropertyRowMapper<>(Maquina.class), hostname, empresa.getIdEmpresa()).isEmpty();
         }catch (Exception e){
             LogsService.gerarLog("Falha ao verificar se máquina existe: " + e.getMessage());
         }
@@ -74,7 +74,7 @@ public class MaquinaDAO extends Conexao {
         try {
             String sql = "SELECT * FROM maquina WHERE hostname = '%s' AND fk_empresa = %d".formatted(hostname, empresa.getIdEmpresa());
 
-            maquina = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Maquina.class));
+            maquina = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Maquina.class));
         }catch (Exception e){
             LogsService.gerarLog("Falha ao buscar máquina: " + e.getMessage());
         }

@@ -58,16 +58,17 @@ public class Conexao {
 
     public static void testarConexoes() {
         testarConexao(conLocal);
-//        testarConexao(conNuvem);
+        testarConexao(conNuvem);
     }
 
     public void insert(String sql, Object ... args) {
         insertFuture(sql, conLocal, args);
-//        insertFuture(sql, conNuvem, args);
+        insertFuture(sql, conNuvem, args);
     }
 
     public Integer keyInsert(String sql, Object ... args) {
-        return keyInsertFuture(sql, conLocal, args);
+        insertFuture(sql, conLocal, args);
+        return keyInsertFuture(sql, conNuvem, args);
     }
 
     public void insertFuture(String sql, JdbcTemplate con, Object ... args) {

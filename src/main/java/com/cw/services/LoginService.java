@@ -25,15 +25,21 @@ public class LoginService {
     static ConfigDAO configDAO = new ConfigDAO();
     PermProcessoDAO permProcessoDAO = new PermProcessoDAO();
 
-    public static void logar() {
-        Usuario user = Node.autenticar();
+    public static void logar(Boolean loginNode, Usuario u) {
+        Usuario user = u;
 
-        if (user == null) return;
+        if (loginNode) {
+            user = Node.autenticar();
+            if (user == null) return;
+        }
 
         String username = user.getUsername();
         String senha = user.getSenha();
 
-        if (!userDao.autenticarLogin(username, senha)) return;
+        Boolean autenticado = userDao.autenticarLogin(username, senha);
+        System.out.println(autenticado);
+
+        if (!autenticado) return;
 
         System.out.println("\nLogin com sucesso. Registrando sessão...");
 

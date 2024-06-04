@@ -25,12 +25,12 @@ public class ProcessoDAO extends Conexao {
     }
 
     public List<Processo> buscarDezProcessosComMaisMemoria(Registro r) {
-        String sql = "SELECT * FROM processo WHERE fk_registro = %d ORDER BY uso_ram DESC LIMIT 10".formatted(r.getIdRegistro());
+        String sql = "SELECT TOP 10 * FROM processo WHERE fk_registro = %d ORDER BY uso_ram DESC".formatted(r.getIdRegistro());
 
         List<Processo> p = new ArrayList<>();
 
         try{
-            p = conLocal.query(sql, new BeanPropertyRowMapper<>(Processo.class));
+            p = conNuvem.query(sql, new BeanPropertyRowMapper<>(Processo.class));
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao buscar 10 processos com mais memória: " + e.getMessage());
         }

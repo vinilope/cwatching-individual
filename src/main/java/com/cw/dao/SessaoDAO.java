@@ -38,7 +38,7 @@ public class SessaoDAO extends Conexao {
         Sessao s;
 
         try {
-            s = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Sessao.class), idSessao);
+            s = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Sessao.class), idSessao);
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao buscar última sessão por máquina: " + e.getMessage());
             return null;

@@ -24,10 +24,10 @@ public class RegistroVolumeDAO extends Conexao {
 
     public RegistroVolume buscarUltimoRegVolumePorUUID(String uuid) {
         RegistroVolume r = new RegistroVolume();
-        String sql = "SELECT * FROM registro_volume WHERE fk_volume = ? ORDER BY dt_hora DESC LIMIT 1";
+        String sql = "SELECT TOP 1 * FROM registro_volume WHERE fk_volume = ? ORDER BY dt_hora DESC";
 
         try {
-            r = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(RegistroVolume.class), uuid);
+            r = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(RegistroVolume.class), uuid);
         } catch (Exception e) {
             System.out.println("Não foi possível buscar registro volume: " + e.getMessage());
             LogsService.gerarLog("Falha ao buscar volume: " + e.getMessage());

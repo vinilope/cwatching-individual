@@ -51,7 +51,7 @@ public class Node {
             LoginService.atualizarVolume.cancel();
             LoginService.monitorarOciosidade.cancel();
             LoginService.ociosidadeService.isRunning = false;
-            LoginService.logar();
+            LoginService.logar(true, new Usuario());
         };
 
         new Thread(logoutListener).start();

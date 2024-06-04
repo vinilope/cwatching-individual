@@ -77,11 +77,11 @@ public class MaquinaService {
                     maquina.getIdMaquina()
             );
 
-            if ((Long) mapVolume.get("existe") == 0) {
+            if ((Integer) mapVolume.get("existe") == 0) {
                 System.out.println("\nNovo volume detectado. Inserindo volume...");
                 volumeDAO.inserirVolume(volumeAtual);
 
-            } else if ((Long) mapVolume.get("alterou") == 1) {
+            } else if ((Integer) mapVolume.get("alterou") == 1) {
                 System.out.println("\n alteração no volume. Atualizando dados...");
                 volumeDAO.atualizarVolume(volumeAtual);
 

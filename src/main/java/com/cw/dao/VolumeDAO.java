@@ -46,7 +46,7 @@ public class VolumeDAO extends Conexao {
         List<Volume> v;
 
         try {
-            v = conLocal.query(sql, new BeanPropertyRowMapper<>(Volume.class));
+            v = conNuvem.query(sql, new BeanPropertyRowMapper<>(Volume.class));
         } catch (Exception ex) {
             LogsService.gerarLog("Falha ao buscar volume por máquina: " + ex.getMessage());
             return null;
@@ -58,14 +58,14 @@ public class VolumeDAO extends Conexao {
     public Map<String, Object> volumeAlterou(Volume v) {
         String sql = """
                 SELECT
-                    (SELECT COUNT(*) FROM volume WHERE uuid=?) > 0 AS existe,
-                    (SELECT COUNT(*) FROM volume WHERE uuid=? AND nome=? AND ponto_montagem=? AND volume_total=?) = 0 AS alterou
+                    CASE WHEN (SELECT COUNT(*) FROM volume WHERE uuid=?) > 0 THEN 1 ELSE 0 END AS existe,
+                    CASE WHEN (SELECT COUNT(*) FROM volume WHERE uuid=? AND nome=? AND ponto_montagem=? AND volume_total=?) = 0 THEN 1 ELSE 0 END AS alterou;
                 """;
 
         try {
-            return conLocal.queryForMap(sql, v.getUUID(), v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getVolumeTotal());
+            return conNuvem.queryForMap(sql, v.getUUID(), v.getUUID(), v.getNome(), v.getPontoMontagem(), v.getVolumeTotal());
         } catch (Exception e) {
-            LogsService.gerarLog("Falha ao conferir se volume alterou: " + e.getMessage());
+            LogsService.gerarLog("Falha ao conferir se volume alterou: " + e.getMessage() + e.getStackTrace());
             return null;
         }
 

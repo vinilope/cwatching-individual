@@ -15,10 +15,10 @@ public class RegistroDAO extends Conexao {
 
     public Registro buscarUltimoRegistroPorSessao(Sessao s) {
         Registro r = new Registro();
-        String sql = "SELECT * FROM registro WHERE fk_sessao = ? ORDER BY dt_hora DESC LIMIT 1";
+        String sql = "SELECT TOP 1 * FROM registro WHERE fk_sessao = ? ORDER BY dt_hora DESC";
 
         try {
-            r = conLocal.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class), s.getIdSessao());
+            r = conNuvem.queryForObject(sql, new BeanPropertyRowMapper<>(Registro.class), s.getIdSessao());
         } catch (Exception e) {
             LogsService.gerarLog("Falha ao buscar último registro da sessão: " + e.getMessage());
         }
