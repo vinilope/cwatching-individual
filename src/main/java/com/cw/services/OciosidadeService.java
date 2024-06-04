@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class OciosidadeService extends TimerTask {
-    private final Boolean DEBUG = true  ;
+    private final Boolean DEBUG = false  ;
 
     private Integer tempoDecrescenteMs;
     private Integer tempoCrescenteMs;

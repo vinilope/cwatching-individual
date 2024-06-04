@@ -9,21 +9,23 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PermProcessoDAO extends Conexao {
-    //TODO: remover formatted
 
     public PermProcessoDAO() {
 
     }
 
-    public List<PermProcesso> buscarProcessos(Config c) {
-        List<PermProcesso> p = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM perm_processo WHERE fk_config = %d".formatted(c.getIdConfig());
+    public List<Map<String, Object>> buscarProcessos(Config c) {
+        List<Map<String, Object>> p = new ArrayList<>();
 
-            p = conNuvem.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
+        try {
+            String sql = "SELECT * FROM perm_processo WHERE fk_config = ?";
+
+            p = conNuvem.queryForList(sql, c.getIdConfig());
         } catch (Exception e){
             LogsService.gerarLog("Falha ao buscar processos" + e.getMessage());
         }
@@ -35,24 +37,11 @@ public class PermProcessoDAO extends Conexao {
         String sql = "INSERT INTO perm_processo (nome, fk_config) values (?, ?)";
         try{
             System.out.println("Adicionado: " + p);
-            insert(sql, p, c.getIdConfig());
+            conLocal.update(sql, p, c.getIdConfig());
+            conNuvem.update(sql, p, c.getIdConfig());
 
         }catch (Exception e){
             LogsService.gerarLog("Falha ao inserir processo: " + e.getMessage());
         }
-    }
-
-    public Boolean verificarPermProcesso(String nome, Config c) {
-        Boolean b =false;
-        try {
-            String sql = "SELECT permitido FROM perm_processo WHERE nome = '%s' AND fk_config = %d AND permitido IS NOT null".formatted(nome, c.getIdConfig());
-            List<PermProcesso> permProcesso = conNuvem.query(sql, new BeanPropertyRowMapper<>(PermProcesso.class));
-            if (permProcesso.isEmpty()) return null;
-            b = permProcesso.get(0).getPermitido();
-
-        }catch (Exception e){
-            LogsService.gerarLog("Falha ao verificar processo: "+ e.getMessage());
-        }
-        return b;
     }
 }

@@ -80,7 +80,7 @@ public class LoginService {
         atualizarVolume.schedule(new RegistroVolumeService(sessaoAtual, alerta), 0, configAtual.getIntervaloVolumeMs());
 
         // Inicializa timer para monitoramento de processos
-        monitorarProcesso.schedule(new ProcessoService(configAtual), 0, 300);
+        monitorarProcesso.schedule(new ProcessoService(configAtual), 2500, 500);
 
         // Inicializa o monitoramento de ociosidade de mouse do usuário
         ociosidadeService = new OciosidadeService(usuario, configAtual.getTimerMouseMs(), configAtual.getSensibilidadeMouse());

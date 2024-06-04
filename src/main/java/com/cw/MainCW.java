@@ -24,7 +24,8 @@ public class MainCW {
 
         Usuario user = new Usuario();
 
-        Boolean loginJava = Boolean.parseBoolean(args[0]);
+//        Boolean loginJava = Boolean.parseBoolean(args[0]); // Caso for construir o arquivo .jar
+        Boolean loginJava = true; // Caso estiver executando na IDE
 
         if (!loginJava) {
             System.out.println(usuarios.get(Integer.parseInt(args[1])));
