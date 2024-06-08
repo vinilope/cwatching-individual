@@ -1,6 +1,7 @@
 package com.cw;
 
 import com.cw.conexao.Conexao;
+import com.cw.models.Ocorrencia;
 import com.cw.models.Usuario;
 import com.cw.services.*;
 
@@ -11,7 +12,6 @@ import java.util.List;
 public class MainCW {
 
     public static void main(String[] args) {
-
         Usuario jean = new Usuario("jean.santos", "jea123123");
         Usuario lucas = new Usuario("lucas.faes", "luc123123");
         Usuario maria = new Usuario("maria.guardiao", "mar123123");
@@ -24,10 +24,13 @@ public class MainCW {
 
         Usuario user = new Usuario();
 
-//        Boolean loginJava = Boolean.parseBoolean(args[0]); // Caso for construir o arquivo .jar
-        Boolean loginJava = true; // Caso estiver executando na IDE
+//        Boolean loginNode = Boolean.parseBoolean(args[0]); // Caso for construir o arquivo .jar
+        Boolean loginNode = true; // Caso estiver executando na IDE
+        
+//        Boolean monitorarMouse = Boolean.parseBoolean(args[2]); // Caso for construir o arquivo .jar
+        Boolean monitorarMouse = true; // Caso estiver executando na IDE
 
-        if (!loginJava) {
+        if (!loginNode) {
             System.out.println(usuarios.get(Integer.parseInt(args[1])));
             user = usuarios.get(Integer.parseInt(args[1]));
         }
@@ -43,7 +46,7 @@ public class MainCW {
                                                                              \s                                                                         
                 """);
 
-        LoginService.logar(loginJava, user);
+        LoginService.logar(loginNode, user, monitorarMouse);
 
     }
 
